@@ -39,16 +39,17 @@ public class MainActivity extends AppCompatActivity {
         binding.bottomNavigationView.setOnItemSelectedListener(item -> {
 
             int itemId = item.getItemId();
-            if (itemId == R.id.home) {
+            if (itemId == R.id.nav_home) {  // Sesuai dengan ID di menu XML
                 replaceFragment(new HomeFragment());
-            } else if (itemId == R.id.profile) {
+            } else if (itemId == R.id.nav_profile) {  // Perbaiki titik ganda
                 replaceFragment(new ProfileFragment());
-            } else if (itemId == R.id.community) {
+            } else if (itemId == R.id.nav_community) {  // Sesuaikan ID dengan XML
                 replaceFragment(new CommunityFragment());
             }
 
             return true;
         });
+
     }
 
     private void replaceFragment(Fragment fragment){
@@ -56,5 +57,7 @@ public class MainActivity extends AppCompatActivity {
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.frame_layout,fragment);
         fragmentTransaction.commit();
+
     }
+
 }

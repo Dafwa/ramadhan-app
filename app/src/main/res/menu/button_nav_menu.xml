@@ -1,16 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <item android:title="@string/home"
-        android:id="@+id/home"
+    <item
+        android:id="@+id/nav_home"
         android:icon="@drawable/baseline_home_24"
-        android:visible="true"/>
-    <item android:title="@string/community"
-        android:id="@+id/community"
+        android:title="Home"
+        app:showAsAction="ifRoom"/>
+
+
+    <item
+        android:id="@+id/nav_community"
         android:icon="@drawable/baseline_groups_24"
-        android:visible="true"/>
-    <item android:title="@string/profile"
-        android:id="@+id/profile"
+        android:title="Community"
+        app:showAsAction="ifRoom"/>
+
+    <item
+        android:id="@+id/nav_profile"
         android:icon="@drawable/baseline_person_24"
-        android:visible="true"/>
+        android:title="Profile"
+        app:showAsAction="ifRoom"/>
+
+
 </menu>
