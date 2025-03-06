@@ -55,14 +55,18 @@
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:text="Jadwal Sahur"/>
+            android:text="Jadwal Sahur"
+            android:textColor="@android:color/white"
+            android:backgroundTint="@color/hijau_muda"/>
 
         <Button
             android:id="@+id/btnJadwalBerbuka"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:text="Jadwal Berbuka"/>
+            android:text="Jadwal Berbuka"
+            android:textColor="@android:color/white"
+            android:backgroundTint="@color/hijau_muda"/>
     </LinearLayout>
 
     <!-- TextView untuk Jadwal Sahur dan Berbuka -->
@@ -117,8 +121,8 @@
         android:layout_marginTop="16dp">
 
         <androidx.cardview.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_width="159dp"
+            android:layout_height="33dp"
             android:layout_margin="8dp"
             android:padding="16dp"
             app:cardCornerRadius="12dp"
@@ -129,24 +133,9 @@
                 android:layout_height="wrap_content"
                 android:text="Kegiatan Ramadhan"
                 android:textSize="16sp"
-                android:textStyle="bold"/>
+                android:textStyle="bold" />
         </androidx.cardview.widget.CardView>
 
-        <androidx.cardview.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="8dp"
-            android:padding="16dp"
-            app:cardCornerRadius="12dp"
-            app:cardElevation="4dp">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Doa Harian"
-                android:textSize="16sp"
-                android:textStyle="bold"/>
-        </androidx.cardview.widget.CardView>
     </GridLayout>
 
     <LinearLayout
@@ -159,22 +148,24 @@
         <Button
             android:id="@+id/btnPengingat"
             android:layout_width="0dp"
+            android:layout_height="match_parent"
             android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:text="Pengingat"
+            android:backgroundTint="@color/hijau_muda"
             android:drawableTop="@drawable/ic_reminder"
             android:gravity="center"
-            android:padding="10dp"/>
+            android:padding="10dp"
+            android:textColor="@android:color/white" />
 
         <Button
             android:id="@+id/btnJadwalKegiatan"
             android:layout_width="0dp"
+            android:layout_height="64dp"
             android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:text="Jadwal Kegiatan"
+            android:backgroundTint="@color/hijau_muda"
             android:drawableTop="@drawable/ic_time"
             android:gravity="center"
-            android:padding="10dp"/>
+            android:padding="10dp"
+            android:textColor="@android:color/white" />
 
     </LinearLayout>
 
@@ -189,13 +180,14 @@
 
         <Button
             android:id="@+id/btnKhatamQuran"
-            android:layout_width="0dp"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
             android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:text="Khatam Qur'an"
+            android:backgroundTint="@color/hijau_muda"
             android:drawableTop="@drawable/ic_quran"
             android:gravity="center"
-            android:padding="10dp"/>
+            android:padding="10dp"
+            android:textColor="@android:color/white" />
 
 
     </LinearLayout>

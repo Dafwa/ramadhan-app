@@ -11,16 +11,18 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
+
 
 public class HomeFragment extends Fragment {
 
     private TextView tvCountdown, tvJadwalSahur, tvJadwalBerbuka;
     private CheckBox cbShalatSubuh, cbTadarus, cbShalatTarawih;
-    private Button btnJadwalKegiatan, btnKhatamQuran, btnPengingat, btnManajemenAktivitas;
+    private Button btnJadwalKegiatan, btnKhatamQuran, btnPengingat;
     private SharedPreferencesHelper sharedPreferencesHelper;
 
     public HomeFragment() {
-        // Required empty public constructor
+        // Konstruktor kosong
     }
 
     @Nullable
@@ -40,32 +42,35 @@ public class HomeFragment extends Fragment {
         tvJadwalSahur = view.findViewById(R.id.tvJadwalSahur);
         tvJadwalBerbuka = view.findViewById(R.id.tvJadwalBerbuka);
 
-        // Ganti tombol lama dengan tombol baru
         btnJadwalKegiatan = view.findViewById(R.id.btnJadwalKegiatan);
         btnKhatamQuran = view.findViewById(R.id.btnKhatamQuran);
         btnPengingat = view.findViewById(R.id.btnPengingat);
 
-
-        // Atur teks countdown secara manual (bisa pakai Timer nanti)
+        // Set teks manual untuk countdown (bisa pakai timer nanti)
         tvCountdown.setText("03:45:22");
 
         // Tampilkan jadwal yang tersimpan
         tvJadwalSahur.setText("Jadwal Sahur: " + sharedPreferencesHelper.getJadwal("sahur"));
         tvJadwalBerbuka.setText("Jadwal Berbuka: " + sharedPreferencesHelper.getJadwal("berbuka"));
 
-        // Set aksi tombol baru
+        // Aksi tombol "Jadwal Kegiatan" (nanti bisa diisi)
         btnJadwalKegiatan.setOnClickListener(v -> {
-            // Tambahkan aksi ketika tombol "Jadwal Kegiatan" ditekan
+            // Tambahkan aksi jika sudah siap
         });
 
-        btnKhatamQuran.setOnClickListener(v -> {
-            // Tambahkan aksi ketika tombol "Khatam Al-Quran" ditekan
-        });
-
+        // Aksi tombol "Pengingat" (nanti bisa diisi)
         btnPengingat.setOnClickListener(v -> {
-            // Tambahkan aksi ketika tombol "Pengingat" ditekan
+            // Tambahkan aksi jika sudah siap
         });
 
+        // Aksi tombol "Khatam Qur'an"
+        btnKhatamQuran.setOnClickListener(v -> {
+            KhatamFragment khatamFragment = new KhatamFragment();
+            FragmentTransaction transaction = requireActivity().getSupportFragmentManager().beginTransaction();
+            transaction.replace(R.id.fragment_container, khatamFragment);
+            transaction.addToBackStack(null); // Agar bisa kembali ke fragment sebelumnya
+            transaction.commit();
+        });
 
 
         return view;
