@@ -88,7 +88,7 @@ public class HomeFragment extends Fragment {
         btnKhatamQuran.setOnClickListener(v -> {
             KhatamFragment khatamFragment = new KhatamFragment();
             FragmentTransaction transaction = requireActivity().getSupportFragmentManager().beginTransaction();
-            transaction.replace(R.id.fragment_container, khatamFragment);
+            transaction.replace(R.id.frame_layout, khatamFragment);
             transaction.addToBackStack(null); // Agar bisa kembali ke fragment sebelumnya
             transaction.commit();
         });
