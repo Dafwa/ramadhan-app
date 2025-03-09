@@ -39,11 +39,11 @@ public class MainActivity extends AppCompatActivity {
         binding.bottomNavigationView.setOnItemSelectedListener(item -> {
 
             int itemId = item.getItemId();
-            if (itemId == R.id.nav_home) {  // Sesuai dengan ID di menu XML
+            if (itemId == R.id.nav_home) {
                 replaceFragment(new HomeFragment());
-            } else if (itemId == R.id.nav_profile) {  // Perbaiki titik ganda
-                replaceFragment(new ProfileFragment());
-            } else if (itemId == R.id.nav_community) {  // Sesuaikan ID dengan XML
+            } else if (itemId == R.id.nav_profile) {
+                replaceFragment(new LoginFragment());
+            } else if (itemId == R.id.nav_community) {
                 replaceFragment(new CommunityFragment());
             }
 
