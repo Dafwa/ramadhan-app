@@ -9,6 +9,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
@@ -21,6 +22,9 @@ public class KhatamFragment extends Fragment implements JuzAdapter.OnJuzCheckedC
     private JuzAdapter adapter;
     private List<JuzModel> juzList;
     private int totalChecked = 0;
+
+    // Tambahkan variabel ViewModel jika ingin menyimpan state lain secara terpusat
+    private JuzViewModel juzViewModel;
 
     public KhatamFragment() {
         // Konstruktor kosong wajib ada
@@ -38,23 +42,22 @@ public class KhatamFragment extends Fragment implements JuzAdapter.OnJuzCheckedC
         textProgress = view.findViewById(R.id.textProgress);
         recyclerView = view.findViewById(R.id.recyclerViewJuz);
 
-        // Buat daftar Juz
-        juzList = getDummyJuzList();
+        // Inisialisasi ViewModel
+        juzViewModel = new ViewModelProvider(requireActivity()).get(JuzViewModel.class);
+        // Ambil list juz dari ViewModel
+        juzList = juzViewModel.getJuzList();
 
         // Atur RecyclerView
         adapter = new JuzAdapter(juzList, this);
         recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
         recyclerView.setAdapter(adapter);
 
-        return view;
-    }
+        // Pastikan progressBar disesuaikan (misalnya, set max ke 30)
+        progressBar.setMax(30);
+        progressBar.setProgress(totalChecked);
+        textProgress.setText(totalChecked + " / 30 Juz");
 
-    private List<JuzModel> getDummyJuzList() {
-        List<JuzModel> list = new ArrayList<>();
-        for (int i = 1; i <= 30; i++) {
-            list.add(new JuzModel("Juz " + i, false)); // Belum dicentang
-        }
-        return list;
+        return view;
     }
 
     @Override
