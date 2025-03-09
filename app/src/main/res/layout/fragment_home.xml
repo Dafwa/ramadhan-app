@@ -8,14 +8,13 @@
     android:padding="16dp"
     android:background="@color/white">
 
-    <!-- Countdown Berbuka -->
+    <!-- Real Time -->
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        app:cardCornerRadius="16dp"
-        app:cardElevation="8dp"
-        android:padding="20dp"
+        app:cardCornerRadius="10dp"
+        app:cardElevation="5dp"
         android:backgroundTint="@color/white">
 
         <LinearLayout
@@ -58,7 +57,8 @@
             android:layout_height="wrap_content"
             android:text="Jadwal Sahur"
             android:textColor="@android:color/white"
-            android:backgroundTint="@color/hijau_muda"/>
+            android:backgroundTint="@color/hijau_muda"
+            android:layout_marginRight="10dp"/>
 
         <Button
             android:id="@+id/btnJadwalBerbuka"
@@ -67,7 +67,8 @@
             android:layout_height="wrap_content"
             android:text="Jadwal Berbuka"
             android:textColor="@android:color/white"
-            android:backgroundTint="@color/hijau_muda"/>
+            android:backgroundTint="@color/hijau_muda"
+            android:layout_marginLeft="10dp"/>
     </LinearLayout>
 
     <!-- TextView untuk Jadwal Sahur dan Berbuka -->
@@ -122,10 +123,9 @@
         android:layout_marginTop="16dp">
 
         <androidx.cardview.widget.CardView
-            android:layout_width="159dp"
+            android:layout_width="match_parent"
             android:layout_height="33dp"
             android:layout_margin="8dp"
-            android:padding="16dp"
             app:cardCornerRadius="12dp"
             app:cardElevation="4dp">
 
@@ -134,7 +134,8 @@
                 android:layout_height="wrap_content"
                 android:text="Kegiatan Ramadhan"
                 android:textSize="16sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:layout_gravity="center"/>
         </androidx.cardview.widget.CardView>
 
     </GridLayout>
@@ -153,6 +154,7 @@
             android:layout_weight="1"
             android:backgroundTint="@color/hijau_muda"
             android:drawableTop="@drawable/ic_reminder"
+            android:drawableTint="@color/white"
             android:gravity="center"
             android:padding="10dp"
             android:textColor="@android:color/white" />
@@ -164,6 +166,7 @@
             android:layout_weight="1"
             android:backgroundTint="@color/hijau_muda"
             android:drawableTop="@drawable/ic_time"
+            android:drawableTint="@color/white"
             android:gravity="center"
             android:padding="10dp"
             android:textColor="@android:color/white" />
@@ -186,6 +189,7 @@
             android:layout_weight="1"
             android:backgroundTint="@color/hijau_muda"
             android:drawableTop="@drawable/ic_quran"
+            android:drawableTint="@color/white"
             android:gravity="center"
             android:padding="10dp"
             android:textColor="@android:color/white" />

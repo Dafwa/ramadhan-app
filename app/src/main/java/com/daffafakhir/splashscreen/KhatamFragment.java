@@ -45,6 +45,7 @@ public class KhatamFragment extends Fragment implements JuzAdapter.OnJuzCheckedC
         progressBar = view.findViewById(R.id.progressBar);
         textProgress = view.findViewById(R.id.textProgress);
         recyclerView = view.findViewById(R.id.recyclerViewJuz);
+        Button btnResetJuz = view.findViewById(R.id.btnResetJuz);
 
         // Inisialisasi SharedPreferences
         prefs = requireContext().getSharedPreferences("juzPrefs", Context.MODE_PRIVATE);
@@ -72,6 +73,24 @@ public class KhatamFragment extends Fragment implements JuzAdapter.OnJuzCheckedC
         progressBar.setMax(30);
         progressBar.setProgress(totalChecked);
         textProgress.setText(totalChecked + " / 30 Juz");
+
+        // Tombol Reset untuk mengembalikan checklist ke keadaan awal (tidak dicentang)
+        btnResetJuz.setOnClickListener(v -> {
+            totalChecked = 0;
+            for (int i = 0; i < juzList.size(); i++) {
+                juzList.get(i).setChecked(false);
+            }
+            progressBar.setProgress(totalChecked);
+            textProgress.setText(totalChecked + " / 30 Juz");
+            adapter.notifyDataSetChanged();
+
+            // Simpan perubahan ke SharedPreferences
+            SharedPreferences.Editor editor = prefs.edit();
+            for (int i = 0; i < juzList.size(); i++) {
+                editor.putBoolean("juz" + i, false);
+            }
+            editor.apply();
+        });
 
         return view;
     }
