@@ -33,6 +33,8 @@ public class JuzAdapter extends RecyclerView.Adapter<JuzAdapter.ViewHolder> {
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         JuzModel juz = juzList.get(position);
         holder.tvJuzName.setText(juz.getNamaJuz());
+        // Lepaskan listener sebelumnya untuk mencegah callback tak diinginkan saat recycling
+        holder.checkBox.setOnCheckedChangeListener(null);
         holder.checkBox.setChecked(juz.isChecked());
 
         // Listener untuk checkbox
