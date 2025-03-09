@@ -50,5 +50,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:menu="@menu/button_nav_menu" />
+        app:menu="@menu/button_nav_menu"
+        android:elevation="10dp"/>
 </androidx.constraintlayout.widget.ConstraintLayout>
