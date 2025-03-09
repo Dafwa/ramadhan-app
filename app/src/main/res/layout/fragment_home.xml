@@ -157,7 +157,8 @@
             android:drawableTint="@color/white"
             android:gravity="center"
             android:padding="10dp"
-            android:textColor="@android:color/white" />
+            android:textColor="@android:color/white"
+            android:layout_marginRight="5dp"/>
 
         <Button
             android:id="@+id/btnJadwalKegiatan"
@@ -169,7 +170,8 @@
             android:drawableTint="@color/white"
             android:gravity="center"
             android:padding="10dp"
-            android:textColor="@android:color/white" />
+            android:textColor="@android:color/white"
+            android:layout_marginLeft="5dp"/>
 
     </LinearLayout>
 
