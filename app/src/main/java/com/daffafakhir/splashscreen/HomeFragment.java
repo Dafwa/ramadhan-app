@@ -1,6 +1,7 @@
 package com.daffafakhir.splashscreen;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,10 +14,16 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+
 
 public class HomeFragment extends Fragment {
 
-    private TextView tvCountdown, tvJadwalSahur, tvJadwalBerbuka;
+    private TextView realTimeText, tvJadwalSahur, tvJadwalBerbuka;
+    private Handler handler = new Handler();
+    private Runnable timeRunnable;
     private CheckBox cbShalatSubuh, cbTadarus, cbShalatTarawih;
     private Button btnJadwalKegiatan, btnKhatamQuran, btnPengingat;
     private SharedPreferencesHelper sharedPreferencesHelper;
@@ -35,7 +42,7 @@ public class HomeFragment extends Fragment {
         sharedPreferencesHelper = new SharedPreferencesHelper(requireContext());
 
         // Inisialisasi elemen UI
-        tvCountdown = view.findViewById(R.id.tvCountdown);
+        realTimeText = view.findViewById(R.id.realTimeText);
         cbShalatSubuh = view.findViewById(R.id.cbShalatSubuh);
         cbTadarus = view.findViewById(R.id.cbTadarus);
         cbShalatTarawih = view.findViewById(R.id.cbShalatTarawih);
@@ -46,8 +53,22 @@ public class HomeFragment extends Fragment {
         btnKhatamQuran = view.findViewById(R.id.btnKhatamQuran);
         btnPengingat = view.findViewById(R.id.btnPengingat);
 
-        // Set teks manual untuk countdown (bisa pakai timer nanti)
-        tvCountdown.setText("03:45:22");
+        // Membuat Runnable untuk mengupdate waktu setiap detik
+        timeRunnable = new Runnable() {
+            @Override
+            public void run() {
+                // Format waktu dengan pola jam:menit:detik (24 jam)
+                SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss", Locale.getDefault());
+                String currentTime = sdf.format(new Date());
+                // Set waktu yang sudah diformat ke TextView
+                realTimeText.setText(currentTime);
+
+                // Jadwalkan update kembali setiap 1000 ms (1 detik)
+                handler.postDelayed(this, 1000);
+            }
+        };
+        // Mulai menjalankan Runnable untuk pertama kali
+        handler.post(timeRunnable);
 
         // Tampilkan jadwal yang tersimpan
         tvJadwalSahur.setText("Jadwal Sahur: " + sharedPreferencesHelper.getJadwal("sahur"));
@@ -74,5 +95,12 @@ public class HomeFragment extends Fragment {
 
 
         return view;
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        // Hentikan update untuk menghindari memory leak
+        handler.removeCallbacks(timeRunnable);
     }
 }
