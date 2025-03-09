@@ -47,6 +47,14 @@ public class KhatamFragment extends Fragment implements JuzAdapter.OnJuzCheckedC
         // Ambil list juz dari ViewModel
         juzList = juzViewModel.getJuzList();
 
+        // Hitung total item yang sudah di-checklist dari data model
+        totalChecked = 0;
+        for (JuzModel juz : juzList) {
+            if (juz.isChecked()) {
+                totalChecked++;
+            }
+        }
+
         // Atur RecyclerView
         adapter = new JuzAdapter(juzList, this);
         recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
