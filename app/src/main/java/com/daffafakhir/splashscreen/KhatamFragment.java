@@ -1,9 +1,12 @@
 package com.daffafakhir.splashscreen;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
@@ -25,6 +28,7 @@ public class KhatamFragment extends Fragment implements JuzAdapter.OnJuzCheckedC
 
     // Tambahkan variabel ViewModel jika ingin menyimpan state lain secara terpusat
     private JuzViewModel juzViewModel;
+    private SharedPreferences prefs;
 
     public KhatamFragment() {
         // Konstruktor kosong wajib ada
@@ -42,15 +46,19 @@ public class KhatamFragment extends Fragment implements JuzAdapter.OnJuzCheckedC
         textProgress = view.findViewById(R.id.textProgress);
         recyclerView = view.findViewById(R.id.recyclerViewJuz);
 
+        // Inisialisasi SharedPreferences
+        prefs = requireContext().getSharedPreferences("juzPrefs", Context.MODE_PRIVATE);
+
         // Inisialisasi ViewModel
         juzViewModel = new ViewModelProvider(requireActivity()).get(JuzViewModel.class);
         // Ambil list juz dari ViewModel
         juzList = juzViewModel.getJuzList();
 
-        // Hitung total item yang sudah di-checklist dari data model
-        totalChecked = 0;
-        for (JuzModel juz : juzList) {
-            if (juz.isChecked()) {
+        // Muat status checklist dari SharedPreferences
+        for (int i = 0; i < juzList.size(); i++) {
+            boolean checked = prefs.getBoolean("juz" + i, false);
+            juzList.get(i).setChecked(checked);
+            if (checked) {
                 totalChecked++;
             }
         }
@@ -70,14 +78,25 @@ public class KhatamFragment extends Fragment implements JuzAdapter.OnJuzCheckedC
 
     @Override
     public void onJuzCheckedChanged(boolean isChecked) {
-        if (isChecked) {
-            totalChecked++;
-        } else {
-            totalChecked--;
+        // Karena listener di adapter hanya mengirim status per item, kita hitung ulang totalChecked
+        totalChecked = 0;
+        for (JuzModel juz : juzList) {
+            if (juz.isChecked()) {
+                totalChecked++;
+            }
         }
-
-        // Update Progress
         progressBar.setProgress(totalChecked);
         textProgress.setText(totalChecked + " / 30 Juz");
+    }
+
+    // Simpan status checklist ke SharedPreferences ketika fragment berhenti
+    @Override
+    public void onPause() {
+        super.onPause();
+        SharedPreferences.Editor editor = prefs.edit();
+        for (int i = 0; i < juzList.size(); i++) {
+            editor.putBoolean("juz" + i, juzList.get(i).isChecked());
+        }
+        editor.apply();
     }
 }
