@@ -2,5 +2,8 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
-    <color name="maincolor">#64FF64</color>
+    <color name="maincolor">#056839</color>
+    <color name="hijau_muda">#2ECC71</color>
+    <color name="Cream">#FFFFCC</color>
+
 </resources>
