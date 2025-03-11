@@ -1,5 +1,7 @@
 package com.daffafakhir.splashscreen;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
@@ -37,16 +39,21 @@ public class MainActivity extends AppCompatActivity {
         replaceFragment(new HomeFragment());
 
         binding.bottomNavigationView.setOnItemSelectedListener(item -> {
-
             int itemId = item.getItemId();
             if (itemId == R.id.nav_home) {
                 replaceFragment(new HomeFragment());
             } else if (itemId == R.id.nav_profile) {
-                replaceFragment(new LoginFragment());
+                // Periksa status login setiap kali ikon profile diklik
+                SharedPreferences sharedPreferences = getSharedPreferences("LoginSession", Context.MODE_PRIVATE);
+                boolean isLoggedIn = sharedPreferences.getBoolean("isLoggedIn", false);
+                if (isLoggedIn) {
+                    replaceFragment(new ProfileFragment());
+                } else {
+                    replaceFragment(new LoginFragment());
+                }
             } else if (itemId == R.id.nav_community) {
                 replaceFragment(new CommunityFragment());
             }
-
             return true;
         });
 

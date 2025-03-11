@@ -1,12 +1,17 @@
 package com.daffafakhir.splashscreen;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -59,6 +64,24 @@ public class ProfileFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_profile, container, false);
+        View view = inflater.inflate(R.layout.fragment_profile, container, false);
+
+        // Inisialisasi tombol logout
+        Button btnLogout = view.findViewById(R.id.logoutButton);
+        btnLogout.setOnClickListener(v -> {
+            // Hapus sesi login dari SharedPreferences
+            SharedPreferences sharedPreferences = requireActivity().getSharedPreferences("LoginSession", Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putBoolean("isLoggedIn", false); // Reset status login
+            editor.apply();
+
+            // Pindah ke LoginFragment
+            FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            fragmentTransaction.replace(R.id.frame_layout, new LoginFragment());
+            fragmentTransaction.commit();
+        });
+
+        return view;
     }
 }

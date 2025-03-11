@@ -1,12 +1,21 @@
 package com.daffafakhir.splashscreen;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -14,6 +23,9 @@ import android.view.ViewGroup;
  * create an instance of this fragment.
  */
 public class LoginFragment extends Fragment {
+
+    private static final String USERNAME = "bismillah";
+    private static final String PASSWORD = "alhamdulillah";
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -60,5 +72,39 @@ public class LoginFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_login, container, false);
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        EditText etUsername = view.findViewById(R.id.username);
+        EditText etPassword = view.findViewById(R.id.password);
+        Button btnLogin = view.findViewById(R.id.loginButton);
+
+        btnLogin.setOnClickListener(v -> {
+            String inputUsername = etUsername.getText().toString().trim();
+            String inputPassword = etPassword.getText().toString().trim();
+
+            if (inputUsername.equals(USERNAME) && inputPassword.equals(PASSWORD)) {
+                // Simpan sesi login
+                SharedPreferences sharedPreferences = requireActivity().getSharedPreferences("LoginSession", Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putBoolean("isLoggedIn", true); // Tandai user telah login
+                editor.apply();
+                // Ganti fragment ke ProfileFragment
+                replaceFragment(new ProfileFragment());
+            } else {
+                // Login gagal, tampilkan Toast
+                Toast.makeText(getActivity(), "Login gagal, periksa username dan password!", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void replaceFragment(Fragment fragment) {
+        FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.frame_layout, fragment);  // Pastikan ID ini ada di activity_main.xml
+        fragmentTransaction.commit();
     }
 }
