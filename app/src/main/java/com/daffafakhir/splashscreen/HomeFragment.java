@@ -1,5 +1,8 @@
 package com.daffafakhir.splashscreen;
 
+import android.Manifest;
+
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.LayoutInflater;
@@ -8,23 +11,35 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
+
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+
 
 public class HomeFragment extends Fragment {
 
-    private TextView realTimeText, tvJadwalSahur, tvJadwalBerbuka, tvTanggalHariIni; // Tambahkan variabel TextView
+    private TextView realTimeText, tvJadwalSubuh, tvJadwalDzuhur, tvJadwalAshar, tvJadwalMaghrib, tvJadwalIsya, tvTanggalHariIni; // Tambahkan variabel TextView
+    private FusedLocationProviderClient fusedLocationClient;
     private Handler handler = new Handler();
     private Runnable timeRunnable;
-    private CheckBox cbShalatSubuh, cbTadarus, cbShalatTarawih;
+    private CheckBox cbShalatSubuh, cbShalatDzuhur, cbShalatAshar, cbShalatMaghrib, cbShalatIsya, cbTadarus, cbShalatTarawih;
     private Button btnJadwalKegiatan, btnKhatamQuran, btnPengingat;
     private SharedPreferencesHelper sharedPreferencesHelper;
 
@@ -45,10 +60,21 @@ public class HomeFragment extends Fragment {
         realTimeText = view.findViewById(R.id.realTimeText);
         tvTanggalHariIni = view.findViewById(R.id.tvTanggalHariIni);
         cbShalatSubuh = view.findViewById(R.id.cbShalatSubuh);
+        cbShalatDzuhur = view.findViewById(R.id.cbShalatDzuhur);
+        cbShalatAshar = view.findViewById(R.id.cbShalatAshar);
+        cbShalatMaghrib = view.findViewById(R.id.cbShalatMaghrib);
+        cbShalatIsya = view.findViewById(R.id.cbShalatIsya);
         cbTadarus = view.findViewById(R.id.cbTadarus);
         cbShalatTarawih = view.findViewById(R.id.cbShalatTarawih);
-        tvJadwalSahur = view.findViewById(R.id.tvJadwalSahur);
-        tvJadwalBerbuka = view.findViewById(R.id.tvJadwalBerbuka);
+        tvJadwalSubuh = view.findViewById(R.id.tvJadwalSubuh);
+        tvJadwalDzuhur = view.findViewById(R.id.tvJadwalDzuhur);
+        tvJadwalAshar = view.findViewById(R.id.tvJadwalAshar);
+        tvJadwalMaghrib = view.findViewById(R.id.tvJadwalMaghrib);
+        tvJadwalIsya = view.findViewById(R.id.tvJadwalIsya);
+
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity());
+
+        getCurrentLocation();
 
         btnJadwalKegiatan = view.findViewById(R.id.btnJadwalKegiatan);
         btnKhatamQuran = view.findViewById(R.id.btnKhatamQuran);
@@ -76,10 +102,6 @@ public class HomeFragment extends Fragment {
         String currentDate = sdfTanggal.format(new Date());
         tvTanggalHariIni.setText(currentDate); // Set ke TextView
 
-        // Tampilkan jadwal yang tersimpan
-        tvJadwalSahur.setText("Jadwal Sahur: " + sharedPreferencesHelper.getJadwal("sahur"));
-        tvJadwalBerbuka.setText("Jadwal Berbuka: " + sharedPreferencesHelper.getJadwal("berbuka"));
-
         // Aksi tombol "Jadwal Kegiatan" (nanti bisa diisi)
         btnJadwalKegiatan.setOnClickListener(v -> {
             // Tambahkan aksi jika sudah siap
@@ -101,6 +123,53 @@ public class HomeFragment extends Fragment {
 
 
         return view;
+    }
+
+    private void getCurrentLocation() {
+        if (ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(requireActivity(), new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
+            return;
+        }
+
+        fusedLocationClient.getLastLocation().addOnSuccessListener(location -> {
+            if (location != null) {
+                double latitude = location.getLatitude();
+                double longitude = location.getLongitude();
+                fetchPrayerTimes(latitude, longitude);
+            } else {
+                Toast.makeText(getContext(), "Gagal mendapatkan lokasi", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void fetchPrayerTimes(double lat, double lon) {
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl("https://api.aladhan.com/v1/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        PrayerTimesAPI api = retrofit.create(PrayerTimesAPI.class);
+        Call<PrayerResponse> call = api.getPrayerTimes(lat, lon, 20);
+
+        call.enqueue(new Callback<PrayerResponse>() {
+            @Override
+            public void onResponse(Call<PrayerResponse> call, Response<PrayerResponse> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    PrayerResponse.Timings timings = response.body().getData().getTimings();
+                    // Set waktu sholat ke TextView
+                    tvJadwalSubuh.setText("Subuh: " + timings.getFajr());
+                    tvJadwalDzuhur.setText("Dzuhur: " + timings.getDhuhr());
+                    tvJadwalAshar.setText("Ashar: " + timings.getAsr());
+                    tvJadwalMaghrib.setText("Maghrib: " + timings.getMaghrib());
+                    tvJadwalIsya.setText("Isya: " + timings.getIsha());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<PrayerResponse> call, Throwable t) {
+                Toast.makeText(getContext(), "Gagal mendapatkan data", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     @Override

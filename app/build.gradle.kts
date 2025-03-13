@@ -47,4 +47,14 @@ dependencies {
     androidTestImplementation(libs.espresso.core)
     implementation("androidx.cardview:cardview:1.0.0")
 
+    // Retrofit untuk HTTP request
+    implementation("com.squareup.retrofit2:retrofit:2.9.0")
+    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
+
+    // Gson untuk parsing JSON
+    implementation("com.google.code.gson:gson:2.8.9")
+
+    // Google Play Services Location untuk mendapatkan lokasi pengguna
+    implementation("com.google.android.gms:play-services-location:21.0.1")
+
 }
