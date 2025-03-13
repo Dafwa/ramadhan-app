@@ -52,7 +52,14 @@ public class MainActivity extends AppCompatActivity {
                     replaceFragment(new LoginFragment());
                 }
             } else if (itemId == R.id.nav_community) {
-                replaceFragment(new CommunityFragment());
+                // Periksa status login setiap kali ikon profile diklik
+                SharedPreferences sharedPreferences = getSharedPreferences("LoginSession", Context.MODE_PRIVATE);
+                boolean isLoggedIn = sharedPreferences.getBoolean("isLoggedIn", false);
+                if (isLoggedIn) {
+                    replaceFragment(new CommunityFragment());
+                } else {
+                    replaceFragment(new LoginFragment());
+                }
             }
             return true;
         });
