@@ -34,9 +34,9 @@
                 android:textColor="@color/black"/>
 
             <TextView
+                android:id="@+id/tvTanggalHariIni"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Maghrib: 17:55 WIB"
                 android:textSize="14sp"
                 android:textColor="@color/black"/>
         </LinearLayout>
@@ -122,21 +122,21 @@
         android:columnCount="2"
         android:layout_marginTop="16dp">
 
-        <androidx.cardview.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="33dp"
-            android:layout_margin="8dp"
-            app:cardCornerRadius="12dp"
-            app:cardElevation="4dp">
+<!--        <androidx.cardview.widget.CardView-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="33dp"-->
+<!--            android:layout_margin="8dp"-->
+<!--            app:cardCornerRadius="12dp"-->
+<!--            app:cardElevation="4dp">-->
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Kegiatan Ramadhan"
-                android:textSize="16sp"
-                android:textStyle="bold"
-                android:layout_gravity="center"/>
-        </androidx.cardview.widget.CardView>
+<!--            <TextView-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:text="Kegiatan Ramadhan"-->
+<!--                android:textSize="16sp"-->
+<!--                android:textStyle="bold"-->
+<!--                android:layout_gravity="center"/>-->
+<!--        </androidx.cardview.widget.CardView>-->
 
     </GridLayout>
 
@@ -195,12 +195,5 @@
             android:gravity="center"
             android:padding="10dp"
             android:textColor="@android:color/white" />
-
-
     </LinearLayout>
-
-
-
-
-
 </LinearLayout>

@@ -21,7 +21,7 @@ import java.util.Locale;
 
 public class HomeFragment extends Fragment {
 
-    private TextView realTimeText, tvJadwalSahur, tvJadwalBerbuka;
+    private TextView realTimeText, tvJadwalSahur, tvJadwalBerbuka, tvTanggalHariIni; // Tambahkan variabel TextView
     private Handler handler = new Handler();
     private Runnable timeRunnable;
     private CheckBox cbShalatSubuh, cbTadarus, cbShalatTarawih;
@@ -43,6 +43,7 @@ public class HomeFragment extends Fragment {
 
         // Inisialisasi elemen UI
         realTimeText = view.findViewById(R.id.realTimeText);
+        tvTanggalHariIni = view.findViewById(R.id.tvTanggalHariIni);
         cbShalatSubuh = view.findViewById(R.id.cbShalatSubuh);
         cbTadarus = view.findViewById(R.id.cbTadarus);
         cbShalatTarawih = view.findViewById(R.id.cbShalatTarawih);
@@ -69,6 +70,11 @@ public class HomeFragment extends Fragment {
         };
         // Mulai menjalankan Runnable untuk pertama kali
         handler.post(timeRunnable);
+
+        // Set tanggal saat ini
+        SimpleDateFormat sdfTanggal = new SimpleDateFormat("EEEE, dd MMMM yyyy", Locale.getDefault());
+        String currentDate = sdfTanggal.format(new Date());
+        tvTanggalHariIni.setText(currentDate); // Set ke TextView
 
         // Tampilkan jadwal yang tersimpan
         tvJadwalSahur.setText("Jadwal Sahur: " + sharedPreferencesHelper.getJadwal("sahur"));
