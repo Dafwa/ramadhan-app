@@ -48,42 +48,56 @@
         </androidx.cardview.widget.CardView>
 
         <!-- Tab Jadwal -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center"
-            android:layout_marginTop="10dp">
+<!--        <LinearLayout-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:orientation="horizontal"-->
+<!--            android:gravity="center"-->
+<!--            android:layout_marginTop="10dp">-->
 
-    <!--        <Button-->
-    <!--            android:id="@+id/btnJadwalSahur"-->
-    <!--            android:layout_width="0dp"-->
-    <!--            android:layout_weight="1"-->
-    <!--            android:layout_height="wrap_content"-->
-    <!--            android:text="Jadwal Sahur"-->
-    <!--            android:textColor="@android:color/white"-->
-    <!--            android:backgroundTint="@color/hijau_muda"-->
-    <!--            android:layout_marginRight="10dp"/>-->
+<!--            <Button-->
+<!--                android:id="@+id/btnJadwalSahur"-->
+<!--                android:layout_width="0dp"-->
+<!--                android:layout_weight="1"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:text="Jadwal Sahur"-->
+<!--                android:textColor="@android:color/white"-->
+<!--                android:backgroundTint="@color/hijau_muda"-->
+<!--                android:layout_marginRight="10dp"/>-->
 
-    <!--        <Button-->
-    <!--            android:id="@+id/btnJadwalBerbuka"-->
-    <!--            android:layout_width="0dp"-->
-    <!--            android:layout_weight="1"-->
-    <!--            android:layout_height="wrap_content"-->
-    <!--            android:text="Jadwal Berbuka"-->
-    <!--            android:textColor="@android:color/white"-->
-    <!--            android:backgroundTint="@color/hijau_muda"-->
-    <!--            android:layout_marginLeft="10dp"/>-->
-        </LinearLayout>
+<!--            <Button-->
+<!--                android:id="@+id/btnJadwalBerbuka"-->
+<!--                android:layout_width="0dp"-->
+<!--                android:layout_weight="1"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:text="Jadwal Berbuka"-->
+<!--                android:textColor="@android:color/white"-->
+<!--                android:backgroundTint="@color/hijau_muda"-->
+<!--                android:layout_marginLeft="10dp"/>-->
+<!--        </LinearLayout>-->
 
-        <!-- TextView untuk Jadwal Sahur dan Berbuka -->
+        <!-- TextView untuk Jadwal Sholat serta Sahur dan Berbuka -->
+<!--        <TextView-->
+<!--            android:id="@+id/tvJadwalSahur"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="Jadwal Sahur: "-->
+<!--            android:textSize="16sp"-->
+<!--            android:layout_marginTop="8dp"/>-->
+<!--        <TextView-->
+<!--            android:id="@+id/tvJadwalBerbuka"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="Jadwal Berbuka Puasa: "-->
+<!--            android:textSize="16sp" />-->
+
         <TextView
             android:id="@+id/tvJadwalSubuh"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Jadwal Subuh: "
             android:textSize="16sp"
-            android:layout_marginTop="8dp"/>
+            android:layout_marginTop="9dp"/>
         <TextView
             android:id="@+id/tvJadwalDzuhur"
             android:layout_width="wrap_content"
@@ -168,29 +182,29 @@
             android:text="Shalat Tarawih"/>
 
         <!-- Menu Kartu -->
-        <GridLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:columnCount="2"
-            android:layout_marginTop="16dp">
+<!--        <GridLayout-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:columnCount="2"-->
+<!--            android:layout_marginTop="16dp">-->
 
-    <!--        <androidx.cardview.widget.CardView-->
-    <!--            android:layout_width="match_parent"-->
-    <!--            android:layout_height="33dp"-->
-    <!--            android:layout_margin="8dp"-->
-    <!--            app:cardCornerRadius="12dp"-->
-    <!--            app:cardElevation="4dp">-->
+<!--            <androidx.cardview.widget.CardView-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="33dp"-->
+<!--                android:layout_margin="8dp"-->
+<!--                app:cardCornerRadius="12dp"-->
+<!--                app:cardElevation="4dp">-->
 
-    <!--            <TextView-->
-    <!--                android:layout_width="wrap_content"-->
-    <!--                android:layout_height="wrap_content"-->
-    <!--                android:text="Kegiatan Ramadhan"-->
-    <!--                android:textSize="16sp"-->
-    <!--                android:textStyle="bold"-->
-    <!--                android:layout_gravity="center"/>-->
-    <!--        </androidx.cardview.widget.CardView>-->
+<!--                <TextView-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:text="Kegiatan Ramadhan"-->
+<!--                    android:textSize="16sp"-->
+<!--                    android:textStyle="bold"-->
+<!--                    android:layout_gravity="center"/>-->
+<!--            </androidx.cardview.widget.CardView>-->
 
-        </GridLayout>
+<!--        </GridLayout>-->
 
         <LinearLayout
             android:layout_width="match_parent"
