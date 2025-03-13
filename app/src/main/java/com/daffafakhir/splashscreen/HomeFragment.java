@@ -35,7 +35,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class HomeFragment extends Fragment {
 
-    private TextView realTimeText, tvJadwalSubuh, tvJadwalDzuhur, tvJadwalAshar, tvJadwalMaghrib, tvJadwalIsya, tvTanggalHariIni; // Tambahkan variabel TextView
+    private TextView realTimeText, tvJadwalSubuh, tvJadwalDzuhur, tvJadwalAshar, tvJadwalMaghrib, tvJadwalIsya, tvJadwalSahur, tvJadwalBerbuka, tvTanggalHariIni; // Tambahkan variabel TextView
     private FusedLocationProviderClient fusedLocationClient;
     private Handler handler = new Handler();
     private Runnable timeRunnable;
@@ -71,6 +71,8 @@ public class HomeFragment extends Fragment {
         tvJadwalAshar = view.findViewById(R.id.tvJadwalAshar);
         tvJadwalMaghrib = view.findViewById(R.id.tvJadwalMaghrib);
         tvJadwalIsya = view.findViewById(R.id.tvJadwalIsya);
+//        tvJadwalSahur = view.findViewById(R.id.tvJadwalSahur);
+//        tvJadwalBerbuka = view.findViewById(R.id.tvJadwalBerbuka);
 
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity());
 
