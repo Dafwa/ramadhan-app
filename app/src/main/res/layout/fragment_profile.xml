@@ -217,7 +217,7 @@
                                 android:layout_gravity="center_horizontal"
                                 android:layout_margin="12dp"
                                 android:background="@drawable/gray_background"
-                                android:src="@drawable/baseline_lock_24" />
+                                android:src="@drawable/baseline_lock_24_green" />
 
 
                         </LinearLayout>
