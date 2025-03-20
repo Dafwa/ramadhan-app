@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "723996064266",
+    "project_id": "kareem-project-bfd7c",
+    "storage_bucket": "kareem-project-bfd7c.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:723996064266:android:26cf027f58fbbb78dafdf3",
+        "android_client_info": {
+          "package_name": "com.daffafakhir.splashscreen"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA9RPDX4j5zc6VI4ZIuoOtSnX1bGqe_qn0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
