@@ -22,11 +22,11 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-public class LoginFragment extends Fragment {
+public class RegisterFragment extends Fragment {
 
     FirebaseAuth mAuth;
 
-    public LoginFragment() {
+    public RegisterFragment() {
         // Required empty public constructor
     }
 
@@ -34,7 +34,7 @@ public class LoginFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_login, container, false);
+        return inflater.inflate(R.layout.fragment_register, container, false);
     }
 
     @Override
@@ -53,16 +53,16 @@ public class LoginFragment extends Fragment {
 
         EditText etUsername = view.findViewById(R.id.username);
         EditText etPassword = view.findViewById(R.id.password);
-        Button btnLogin = view.findViewById(R.id.loginButton);
-        Button btnRegister = view.findViewById(R.id.keRegisterButton);
+        Button btnLogin = view.findViewById(R.id.keLoginButton);
+        Button btnRegister = view.findViewById(R.id.registerButton);
         ProgressBar progressBar = view.findViewById(R.id.circleLoad);
         mAuth = FirebaseAuth.getInstance();
 
-        btnRegister.setOnClickListener(v -> {
-            replaceFragment(new RegisterFragment());
+        btnLogin.setOnClickListener(v -> {
+            replaceFragment(new LoginFragment());
         });
 
-        btnLogin.setOnClickListener(v -> {
+        btnRegister.setOnClickListener(v -> {
             progressBar.setVisibility(View.VISIBLE);
             String email = etUsername.getText().toString().trim();
             String password = etPassword.getText().toString().trim();
@@ -78,22 +78,23 @@ public class LoginFragment extends Fragment {
                 return;
             }
 
-            mAuth.signInWithEmailAndPassword(email, password)
+            mAuth.createUserWithEmailAndPassword(email, password)
                     .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if (task.isSuccessful()) {
                                 progressBar.setVisibility(View.GONE);
-                                Toast.makeText(getActivity(), "Login berhasil!",
+                                Toast.makeText(getActivity(), "Register berhasil!",
                                         Toast.LENGTH_SHORT).show();
-                                replaceFragment(new ProfileFragment());
+                                replaceFragment(new LoginFragment());
                             } else {
                                 progressBar.setVisibility(View.GONE);
-                                Toast.makeText(getActivity(), "Login gagal.",
+                                Toast.makeText(getActivity(), "Register gagal.",
                                         Toast.LENGTH_SHORT).show();
                             }
                         }
                     });
+
         });
     }
 

@@ -1,12 +1,6 @@
 package com.daffafakhir.splashscreen;
 
-import android.content.Context;
-import android.content.SharedPreferences;
-import android.graphics.Color;
-import android.os.Build;
 import android.os.Bundle;
-import android.view.Window;
-import android.view.WindowInsetsController;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -43,23 +37,9 @@ public class MainActivity extends AppCompatActivity {
             if (itemId == R.id.nav_home) {
                 replaceFragment(new HomeFragment());
             } else if (itemId == R.id.nav_profile) {
-                // Periksa status login setiap kali ikon profile diklik
-                SharedPreferences sharedPreferences = getSharedPreferences("LoginSession", Context.MODE_PRIVATE);
-                boolean isLoggedIn = sharedPreferences.getBoolean("isLoggedIn", false);
-                if (isLoggedIn) {
-                    replaceFragment(new ProfileFragment());
-                } else {
-                    replaceFragment(new LoginFragment());
-                }
+                replaceFragment(new ProfileFragment());
             } else if (itemId == R.id.nav_community) {
-                // Periksa status login setiap kali ikon profile diklik
-                SharedPreferences sharedPreferences = getSharedPreferences("LoginSession", Context.MODE_PRIVATE);
-                boolean isLoggedIn = sharedPreferences.getBoolean("isLoggedIn", false);
-                if (isLoggedIn) {
-                    replaceFragment(new CommunityFragment());
-                } else {
-                    replaceFragment(new LoginFragment());
-                }
+                replaceFragment(new CommunityFragment());
             }
             return true;
         });

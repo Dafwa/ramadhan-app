@@ -6,12 +6,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Spinner;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,6 +28,9 @@ public class CommunityFragment extends Fragment {
     private EditText etMessage;
     private Button btnSendMessage;
 
+    FirebaseAuth auth;
+    FirebaseUser user;
+
     public CommunityFragment() {
         // Diperlukan konstruktor kosong
     }
@@ -31,6 +39,13 @@ public class CommunityFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_community, container, false);
+
+        auth = FirebaseAuth.getInstance();
+        user = auth.getCurrentUser();
+
+        if (user == null){
+            replaceFragment(new LoginFragment());
+        }
 
         // Inisialisasi UI
         recyclerViewPosts = view.findViewById(R.id.recyclerViewPosts);
@@ -57,5 +72,12 @@ public class CommunityFragment extends Fragment {
 
 
         return view;
+    }
+
+    private void replaceFragment(Fragment fragment) {
+        FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.frame_layout, fragment);  // Pastikan ID ini ada di activity_main.xml
+        fragmentTransaction.commit();
     }
 }

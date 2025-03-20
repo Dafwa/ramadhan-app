@@ -9,7 +9,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:gravity="center"
-    tools:context=".LoginFragment">
+    tools:context=".RegisterFragment">
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
@@ -29,7 +29,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Login"
+                android:text="Register"
                 android:id="@+id/loginText"
                 android:textSize="36sp"
                 android:textAlignment="center"
@@ -42,7 +42,7 @@
                 android:background="@drawable/custom_edittext"
                 android:drawableLeft="@drawable/baseline_person_24"
                 android:drawablePadding="8dp"
-                android:hint="masukkan email"
+                android:hint="buat email"
                 android:padding="8dp"
                 android:textColor="@color/black"
                 android:textColorHighlight="@color/cardview_dark_background"
@@ -55,7 +55,7 @@
                 android:background="@drawable/custom_edittext"
                 android:drawableLeft="@drawable/baseline_lock_24"
                 android:drawablePadding="8dp"
-                android:hint="masukkan password"
+                android:hint="buat password"
                 android:padding="8dp"
                 android:inputType="textPassword"
                 android:textColor="@color/black"
@@ -73,21 +73,21 @@
             <Button
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
-                android:id="@+id/loginButton"
-                android:text="Login"
+                android:id="@+id/registerButton"
+                android:text="Register"
                 android:textSize="18sp"
                 android:layout_marginTop="30dp"
-                android:backgroundTint="@color/hijau_muda"
+                android:backgroundTint="@color/blue"
                 app:cornerRadius = "20dp"/>
 
             <Button
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
-                android:id="@+id/keRegisterButton"
-                android:text="Buat Akun"
+                android:id="@+id/keLoginButton"
+                android:text="Kembali ke Login"
                 android:textSize="18sp"
                 android:layout_marginTop="10dp"
-                android:backgroundTint="@color/blue"
+                android:backgroundTint="@color/hijau_muda"
                 app:cornerRadius = "20dp"/>
 
         </LinearLayout>
