@@ -51,40 +51,66 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="horizontal"
+            android:layout_marginTop="10dp">
 
-            <TextView
-                android:id="@+id/tvJadwalSubuh"
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Subuh: "
-                android:textSize="16sp"
-                android:layout_marginTop="9dp"/>
-            <TextView
-                android:id="@+id/tvJadwalDzuhur"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tvJadwalSubuh"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Subuh: "
+                    android:textSize="16sp"
+                    android:layout_marginTop="9dp"/>
+                <TextView
+                    android:id="@+id/tvJadwalDzuhur"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Dzuhur: "
+                    android:textSize="16sp" />
+                <TextView
+                    android:id="@+id/tvJadwalAshar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Ashar: "
+                    android:textSize="16sp" />
+                <TextView
+                    android:id="@+id/tvJadwalMaghrib"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Maghrib: "
+                    android:textSize="16sp" />
+                <TextView
+                    android:id="@+id/tvJadwalIsya"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Isya: "
+                    android:textSize="16sp"
+                    android:layout_marginBottom="8dp"/>
+
+                <Button
+                    android:id="@+id/btnRefreshJadwal"
+                    android:backgroundTint="@color/hijau_muda"
+                    android:textColor="@color/white"
+                    android:textStyle="bold"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Perbarui Jadwal"
+                    android:layout_gravity="center_horizontal"/>
+
+            </LinearLayout>
+
+            <ProgressBar
+                android:id="@+id/progressBar"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Dzuhur: "
-                android:textSize="16sp" />
-            <TextView
-                android:id="@+id/tvJadwalAshar"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Ashar: "
-                android:textSize="16sp" />
-            <TextView
-                android:id="@+id/tvJadwalMaghrib"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Maghrib: "
-                android:textSize="16sp" />
-            <TextView
-                android:id="@+id/tvJadwalIsya"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Isya: "
-                android:textSize="16sp"
-                android:layout_marginBottom="8dp"/>
+                android:visibility="gone"
+                android:layout_gravity="center"
+                android:layout_marginBottom="30dp"/>
 
         </LinearLayout>
 

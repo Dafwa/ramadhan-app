@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -38,6 +39,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class HomeFragment extends Fragment {
 
     private TextView realTimeText, tvJadwalSubuh, tvJadwalDzuhur, tvJadwalAshar, tvJadwalMaghrib, tvJadwalIsya, tvJadwalSahur, tvJadwalBerbuka, tvTanggalHariIni; // Tambahkan variabel TextView
+    private ProgressBar progressBar;
     private FusedLocationProviderClient fusedLocationClient;
     private Handler handler = new Handler();
     private Runnable timeRunnable;
@@ -67,6 +69,7 @@ public class HomeFragment extends Fragment {
         cbShalatIsya = view.findViewById(R.id.cbShalatIsya);
         cbTadarus = view.findViewById(R.id.cbTadarus);
         cbShalatTarawih = view.findViewById(R.id.cbShalatTarawih);
+        progressBar = view.findViewById(R.id.progressBar);
         tvJadwalSubuh = view.findViewById(R.id.tvJadwalSubuh);
         tvJadwalDzuhur = view.findViewById(R.id.tvJadwalDzuhur);
         tvJadwalAshar = view.findViewById(R.id.tvJadwalAshar);
@@ -89,6 +92,30 @@ public class HomeFragment extends Fragment {
             getCurrentLocation();  // Hanya request API jika belum ada data
         }
 
+        // Inisialisasi tombol di onCreateView()
+        Button btnRefreshJadwal = view.findViewById(R.id.btnRefreshJadwal);
+
+        // Event klik tombol untuk memanggil API secara manual
+        btnRefreshJadwal.setOnClickListener(v -> {
+            // Hapus data dari SharedPreferences
+            SharedPreferences sharedPreferences = requireContext().getSharedPreferences("PrayerTimes", Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.clear();
+            editor.apply();
+
+            // Kosongkan tampilan waktu sholat
+            tvJadwalSubuh.setText("");
+            tvJadwalDzuhur.setText("");
+            tvJadwalAshar.setText("");
+            tvJadwalMaghrib.setText("");
+            tvJadwalIsya.setText("");
+
+            // Tampilkan ProgressBar
+            progressBar.setVisibility(View.VISIBLE);
+
+            // Panggil ulang API untuk mendapatkan data baru
+            getCurrentLocation();
+        });
 
         btnJadwalKegiatan = view.findViewById(R.id.btnJadwalKegiatan);
         btnKhatamQuran = view.findViewById(R.id.btnKhatamQuran);
@@ -200,6 +227,9 @@ public class HomeFragment extends Fragment {
             public void onResponse(Call<PrayerResponse> call, Response<PrayerResponse> response) {
                 if (response.isSuccessful() && response.body() != null) {
                     PrayerResponse.Timings timings = response.body().getData().getTimings();
+
+                    // Sembunyikan ProgressBar
+                    progressBar.setVisibility(View.GONE);
                     // Set waktu sholat ke TextView
                     tvJadwalSubuh.setText("Subuh: " + timings.getFajr());
                     tvJadwalDzuhur.setText("Dzuhur: " + timings.getDhuhr());
@@ -213,12 +243,15 @@ public class HomeFragment extends Fragment {
                     editor.putString("ashar", timings.getAsr());
                     editor.putString("maghrib", timings.getMaghrib());
                     editor.putString("isya", timings.getIsha());
-                    // editor.apply(); <-- Jangan dipanggil agar tidak tersimpan permanen
+                    editor.apply();
                 }
             }
 
             @Override
             public void onFailure(Call<PrayerResponse> call, Throwable t) {
+                // Sembunyikan ProgressBar jika gagal
+                progressBar.setVisibility(View.GONE);
+
                 Toast.makeText(getContext(), "Gagal mendapatkan data", Toast.LENGTH_SHORT).show();
             }
         });
