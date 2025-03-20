@@ -43,7 +43,6 @@ public class HomeFragment extends Fragment {
     private Runnable timeRunnable;
     private CheckBox cbShalatSubuh, cbShalatDzuhur, cbShalatAshar, cbShalatMaghrib, cbShalatIsya, cbTadarus, cbShalatTarawih;
     private Button btnJadwalKegiatan, btnKhatamQuran, btnPengingat;
-    private SharedPreferencesHelper sharedPreferencesHelper;
 
     public HomeFragment() {
         // Konstruktor kosong
@@ -54,9 +53,6 @@ public class HomeFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         // Inflate layout fragment_home.xml
         View view = inflater.inflate(R.layout.fragment_home, container, false);
-
-        // Inisialisasi SharedPreferencesHelper
-        sharedPreferencesHelper = new SharedPreferencesHelper(requireContext());
 
         // Inisialisasi elemen UI
         realTimeText = view.findViewById(R.id.realTimeText);
