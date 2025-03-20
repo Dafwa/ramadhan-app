@@ -43,6 +43,7 @@ public class HomeFragment extends Fragment {
     private Runnable timeRunnable;
     private CheckBox cbShalatSubuh, cbShalatDzuhur, cbShalatAshar, cbShalatMaghrib, cbShalatIsya, cbTadarus, cbShalatTarawih;
     private Button btnJadwalKegiatan, btnKhatamQuran, btnPengingat;
+    private SharedPreferences sharedPreferences;
 
     public HomeFragment() {
         // Konstruktor kosong
@@ -53,6 +54,8 @@ public class HomeFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         // Inflate layout fragment_home.xml
         View view = inflater.inflate(R.layout.fragment_home, container, false);
+
+        sharedPreferences = requireActivity().getSharedPreferences("PrayerTimes", Context.MODE_PRIVATE);
 
         // Inisialisasi elemen UI
         realTimeText = view.findViewById(R.id.realTimeText);
@@ -74,7 +77,18 @@ public class HomeFragment extends Fragment {
 
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity());
 
-        getCurrentLocation();
+        // Ambil data dari SharedPreferences dan tampilkan di TextView
+        tvJadwalSubuh.setText("Subuh: " + sharedPreferences.getString("subuh", "Belum tersedia"));
+        tvJadwalDzuhur.setText("Dzuhur: " + sharedPreferences.getString("dzuhur", "Belum tersedia"));
+        tvJadwalAshar.setText("Ashar: " + sharedPreferences.getString("ashar", "Belum tersedia"));
+        tvJadwalMaghrib.setText("Maghrib: " + sharedPreferences.getString("maghrib", "Belum tersedia"));
+        tvJadwalIsya.setText("Isya: " + sharedPreferences.getString("isya", "Belum tersedia"));
+
+        // Cek apakah sudah ada data di SharedPreferences
+        if (sharedPreferences.getString("subuh", null) == null) {
+            getCurrentLocation();  // Hanya request API jika belum ada data
+        }
+
 
         btnJadwalKegiatan = view.findViewById(R.id.btnJadwalKegiatan);
         btnKhatamQuran = view.findViewById(R.id.btnKhatamQuran);
@@ -192,6 +206,14 @@ public class HomeFragment extends Fragment {
                     tvJadwalAshar.setText("Ashar: " + timings.getAsr());
                     tvJadwalMaghrib.setText("Maghrib: " + timings.getMaghrib());
                     tvJadwalIsya.setText("Isya: " + timings.getIsha());
+
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.putString("subuh", timings.getFajr());
+                    editor.putString("dzuhur", timings.getDhuhr());
+                    editor.putString("ashar", timings.getAsr());
+                    editor.putString("maghrib", timings.getMaghrib());
+                    editor.putString("isya", timings.getIsha());
+                    // editor.apply(); <-- Jangan dipanggil agar tidak tersimpan permanen
                 }
             }
 
