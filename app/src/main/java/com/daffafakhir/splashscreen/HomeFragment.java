@@ -2,6 +2,8 @@ package com.daffafakhir.splashscreen;
 
 import android.Manifest;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
@@ -127,12 +129,28 @@ public class HomeFragment extends Fragment {
         return view;
     }
 
+    private void saveLocationPermissionGranted(boolean isGranted) {
+        SharedPreferences prefs = requireContext().getSharedPreferences("app_prefs", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putBoolean("location_permission_granted", isGranted);
+        editor.apply();
+    }
+
+    private boolean isLocationPermissionGranted() {
+        SharedPreferences prefs = requireContext().getSharedPreferences("app_prefs", Context.MODE_PRIVATE);
+        return prefs.getBoolean("location_permission_granted", false);
+    }
+
     private void getCurrentLocation() {
         if (ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(requireActivity(), new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
+            // Jika izin belum diberikan dan belum pernah disimpan di SharedPreferences
+            if (!isLocationPermissionGranted()) {
+                ActivityCompat.requestPermissions(requireActivity(), new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
+            }
             return;
         }
 
+        // Jika izin sudah diberikan, langsung dapatkan lokasi
         fusedLocationClient.getLastLocation().addOnSuccessListener(location -> {
             if (location != null) {
                 double latitude = location.getLatitude();
@@ -143,6 +161,20 @@ public class HomeFragment extends Fragment {
             }
         });
     }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == 1) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                saveLocationPermissionGranted(true);
+                getCurrentLocation(); // Coba ambil lokasi lagi setelah izin diberikan
+            } else {
+                Toast.makeText(getContext(), "Izin lokasi diperlukan untuk mendapatkan jadwal sholat", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
 
     private void fetchPrayerTimes(double lat, double lon) {
         Retrofit retrofit = new Retrofit.Builder()
