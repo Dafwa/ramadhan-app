@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -150,7 +151,11 @@ public class HomeFragment extends Fragment {
 
         // Aksi tombol "Pengingat" (nanti bisa diisi)
         btnPengingat.setOnClickListener(v -> {
-            // Tambahkan aksi jika sudah siap
+            PengingatFragment pengingatFragment = new PengingatFragment();
+            FragmentTransaction transaction = requireActivity().getSupportFragmentManager().beginTransaction();
+            transaction.replace(R.id.frame_layout, pengingatFragment);
+            transaction.addToBackStack(null); // Agar bisa kembali ke fragment sebelumnya
+            transaction.commit();
         });
 
         // Aksi tombol "Khatam Qur'an"
@@ -228,6 +233,14 @@ public class HomeFragment extends Fragment {
                 if (response.isSuccessful() && response.body() != null) {
                     PrayerResponse.Timings timings = response.body().getData().getTimings();
 
+                    // Log waktu sholat dari API
+                    Log.d("PrayerTimes", "Waktu Sholat dari API: " +
+                            "Subuh: " + timings.getFajr() + ", " +
+                            "Dzuhur: " + timings.getDhuhr() + ", " +
+                            "Ashar: " + timings.getAsr() + ", " +
+                            "Maghrib: " + timings.getMaghrib() + ", " +
+                            "Isya: " + timings.getIsha());
+
                     // Sembunyikan ProgressBar
                     progressBar.setVisibility(View.GONE);
                     // Set waktu sholat ke TextView
@@ -244,6 +257,8 @@ public class HomeFragment extends Fragment {
                     editor.putString("maghrib", timings.getMaghrib());
                     editor.putString("isya", timings.getIsha());
                     editor.apply();
+
+                    setPrayerReminders(timings);
                 }
             }
 
@@ -255,6 +270,18 @@ public class HomeFragment extends Fragment {
                 Toast.makeText(getContext(), "Gagal mendapatkan data", Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    private void setPrayerReminders(PrayerResponse.Timings timings) {
+        Context context = requireContext();
+
+        PrayerReminderHelper.setPrayerReminder(context, "subuh", timings.getFajr());
+        PrayerReminderHelper.setPrayerReminder(context, "dzuhur", timings.getDhuhr());
+        PrayerReminderHelper.setPrayerReminder(context, "ashar", timings.getAsr());
+        PrayerReminderHelper.setPrayerReminder(context, "maghrib", timings.getMaghrib());
+        PrayerReminderHelper.setPrayerReminder(context, "isya", timings.getIsha());
+
+        Log.d("PrayerReminder", "Pengingat sholat berhasil diatur.");
     }
 
     @Override

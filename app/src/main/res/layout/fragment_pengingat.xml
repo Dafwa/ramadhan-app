@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".PengingatFragment">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Pengingat Waktu Sholat"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:layout_gravity="center_horizontal"
+            android:paddingBottom="16dp" />
+
+        <Switch
+            android:id="@+id/switch_subuh"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Pengingat Subuh"
+            android:padding="10dp"/>
+
+        <Switch
+            android:id="@+id/switch_dzuhur"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Pengingat Dzuhur"
+            android:padding="10dp"/>
+
+        <Switch
+            android:id="@+id/switch_ashar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Pengingat Ashar"
+            android:padding="10dp"/>
+
+        <Switch
+            android:id="@+id/switch_maghrib"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Pengingat Maghrib"
+            android:padding="10dp"/>
+
+        <Switch
+            android:id="@+id/switch_isya"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Pengingat Isya"
+            android:padding="10dp"/>
+
+        <Button
+            android:id="@+id/btn_test_reminder"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Tes Pengingat"
+            android:padding="10dp"/>
+
+    </LinearLayout>
+
+</FrameLayout>
