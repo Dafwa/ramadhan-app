@@ -28,9 +28,6 @@ public class PrayerReminderReceiver extends BroadcastReceiver {
             return; // Hindari crash jika prayerName tetap null
         }
 
-        // Pastikan nama sholat selalu huruf kecil
-        prayerName = prayerName.toLowerCase();
-
         Log.d("PrayerReminderReceiver", "Menerima pengingat untuk: " + prayerName);
         showNotification(context, prayerName);
     }
@@ -42,7 +39,10 @@ public class PrayerReminderReceiver extends BroadcastReceiver {
             return; // Hindari crash jika null
         }
 
-        Log.d("PrayerReminderReceiver", "Menampilkan notifikasi untuk: " + prayerName);
+        // Ubah huruf pertama jadi kapital
+        String capitalizedPrayerName = capitalizeFirstLetter(prayerName);
+
+        Log.d("PrayerReminderReceiver", "Menampilkan notifikasi untuk: " + capitalizedPrayerName);
 
         // Buat channel notifikasi
         createNotificationChannel(context);
@@ -56,7 +56,7 @@ public class PrayerReminderReceiver extends BroadcastReceiver {
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context, CHANNEL_ID)
                 .setSmallIcon(R.drawable.baseline_add_alert_24)
                 .setContentTitle("Waktunya Sholat!")
-                .setContentText("Saatnya sholat " + prayerName)
+                .setContentText("Saatnya sholat " + capitalizedPrayerName)
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
                 .setAutoCancel(true)
                 .setContentIntent(pendingIntent);
@@ -83,5 +83,12 @@ public class PrayerReminderReceiver extends BroadcastReceiver {
             NotificationManager notificationManager = context.getSystemService(NotificationManager.class);
             notificationManager.createNotificationChannel(channel);
         }
+    }
+
+    private String capitalizeFirstLetter(String text) {
+        if (text == null || text.isEmpty()) {
+            return text;
+        }
+        return text.substring(0, 1).toUpperCase() + text.substring(1);
     }
 }

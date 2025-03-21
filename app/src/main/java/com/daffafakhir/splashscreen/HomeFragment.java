@@ -258,15 +258,12 @@ public class HomeFragment extends Fragment {
                     editor.putString("isya", timings.getIsha());
                     editor.apply();
 
-                    setPrayerReminders(timings);
+                    // setPrayerReminders(timings);
                 }
             }
 
             @Override
             public void onFailure(Call<PrayerResponse> call, Throwable t) {
-                // Sembunyikan ProgressBar jika gagal
-                progressBar.setVisibility(View.GONE);
-
                 Toast.makeText(getContext(), "Gagal mendapatkan data", Toast.LENGTH_SHORT).show();
             }
         });

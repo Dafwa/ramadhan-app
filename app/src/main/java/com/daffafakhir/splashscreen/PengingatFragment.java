@@ -46,7 +46,7 @@ public class PengingatFragment extends Fragment {
         // Inisialisasi SharedPreferences
         sharedPreferences = requireActivity().getSharedPreferences("PrayerReminderPrefs", Context.MODE_PRIVATE);
 
-        // Muat status pengingat sebelumnya
+        // Panggil fungsi ini untuk memuat status switch
         loadSwitchStates();
 
         // Tambahkan listener untuk menyimpan status saat switch diubah
@@ -93,15 +93,19 @@ public class PengingatFragment extends Fragment {
         }
 
         if (prayerName != null) {
-            prayerName = prayerName.toLowerCase(); // Pastikan selalu huruf kecil
             editor.putBoolean(prayerName, isChecked);
             editor.apply();
 
             SharedPreferences prayerTimesPrefs = requireActivity().getSharedPreferences("PrayerTimes", Context.MODE_PRIVATE);
             String prayerTime = prayerTimesPrefs.getString(prayerName, "00:00"); // Default waktu jika tidak ditemukan
 
-            PrayerReminderHelper.setPrayerReminder(requireContext(), prayerName, prayerTime);
-            Log.d("PengingatFragment", "Pengingat untuk " + prayerName + " " + (isChecked ? "diaktifkan" : "dinonaktifkan") + " pada " + prayerTime);
+            if (isChecked) {
+                PrayerReminderHelper.setPrayerReminder(requireContext(), prayerName, prayerTime);
+                Log.d("PengingatFragment", "Pengingat untuk " + prayerName + " diaktifkan pada " + prayerTime);
+            } else {
+                PrayerReminderHelper.cancelPrayerReminder(requireContext(), prayerName);
+                Log.d("PengingatFragment", "Pengingat untuk " + prayerName + " dinonaktifkan");
+            }
         } else {
             Log.e("PengingatFragment", "Switch ID tidak dikenali: " + resourceName + " (ID: " + id + ")");
         }
@@ -109,7 +113,7 @@ public class PengingatFragment extends Fragment {
 
     private void setDummyReminder() {
         Calendar calendar = Calendar.getInstance();
-        calendar.add(Calendar.SECOND, 5); // Set alarm 1 menit dari sekarang
+        calendar.add(Calendar.SECOND, 5); // Set alarm 5 detik dari sekarang
 
         PrayerReminderHelper.setCustomReminder(requireContext(), "dummy", calendar.getTimeInMillis());
         Log.d("PengingatFragment", "Pengingat Dummy diatur dalam 5 detik.");

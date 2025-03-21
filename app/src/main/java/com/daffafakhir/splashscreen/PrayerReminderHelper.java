@@ -22,9 +22,6 @@ public class PrayerReminderHelper {
             return;
         }
 
-        // Pastikan prayerName selalu dalam huruf kecil agar konsisten
-        prayerName = prayerName.toLowerCase();
-
         // Konversi waktu dari API ke Calendar
         SimpleDateFormat sdf = new SimpleDateFormat("HH:mm", Locale.getDefault());
         Calendar calendar = Calendar.getInstance();
@@ -62,6 +59,23 @@ public class PrayerReminderHelper {
             Log.d("PrayerReminderHelper", "Alarm untuk " + prayerName + " dijadwalkan pada: " + calendar.getTime());
         }
     }
+
+    public static void cancelPrayerReminder(Context context, String prayerName) {
+        Log.d("PrayerReminderHelper", "Membatalkan pengingat untuk: " + prayerName);
+
+        AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+        Intent intent = new Intent(context, PrayerReminderReceiver.class);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(
+                context, prayerName.hashCode(), intent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE
+        );
+
+        if (alarmManager != null) {
+            alarmManager.cancel(pendingIntent);
+            pendingIntent.cancel();
+            Log.d("PrayerReminderHelper", "Pengingat " + prayerName + " dibatalkan.");
+        }
+    }
+
 
     public static void setCustomReminder(Context context, String prayerName, long triggerTime) {
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
