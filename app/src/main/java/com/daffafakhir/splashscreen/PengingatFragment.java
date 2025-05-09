@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.Switch;
+import android.widget.Toast;
 
 import java.util.Calendar;
 
@@ -101,9 +102,11 @@ public class PengingatFragment extends Fragment {
 
             if (isChecked) {
                 PrayerReminderHelper.setPrayerReminder(requireContext(), prayerName, prayerTime);
+                Toast.makeText(requireContext(), "Pengingat " + prayerName + " diaktifkan", Toast.LENGTH_SHORT).show();
                 Log.d("PengingatFragment", "Pengingat untuk " + prayerName + " diaktifkan pada " + prayerTime);
             } else {
                 PrayerReminderHelper.cancelPrayerReminder(requireContext(), prayerName);
+                Toast.makeText(requireContext(), "Pengingat " + prayerName + " dimatikan", Toast.LENGTH_SHORT).show();
                 Log.d("PengingatFragment", "Pengingat untuk " + prayerName + " dinonaktifkan");
             }
         } else {
@@ -117,5 +120,6 @@ public class PengingatFragment extends Fragment {
 
         PrayerReminderHelper.setCustomReminder(requireContext(), "dummy", calendar.getTimeInMillis());
         Log.d("PengingatFragment", "Pengingat Dummy diatur dalam 5 detik.");
+        Toast.makeText(requireContext(), "Pengingat Dummy diatur selama 5 detik.", Toast.LENGTH_SHORT).show();
     }
 }

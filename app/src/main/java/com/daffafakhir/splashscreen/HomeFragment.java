@@ -29,6 +29,7 @@ import com.google.android.gms.location.LocationServices;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
+import java.util.Map;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -38,6 +39,11 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 
 public class HomeFragment extends Fragment {
+
+    private boolean isLoadingChecklist = false;
+    private final String PREFS_CHECKLIST = "ChecklistHariIni";
+
+    private Map<CheckBox, String> checkboxMap;
 
     private TextView realTimeText, tvJadwalSubuh, tvJadwalDzuhur, tvJadwalAshar, tvJadwalMaghrib, tvJadwalIsya, tvJadwalSahur, tvJadwalBerbuka, tvTanggalHariIni; // Tambahkan variabel TextView
     private ProgressBar progressBar;
@@ -63,13 +69,26 @@ public class HomeFragment extends Fragment {
         // Inisialisasi elemen UI
         realTimeText = view.findViewById(R.id.realTimeText);
         tvTanggalHariIni = view.findViewById(R.id.tvTanggalHariIni);
-        cbShalatSubuh = view.findViewById(R.id.cbShalatSubuh);
-        cbShalatDzuhur = view.findViewById(R.id.cbShalatDzuhur);
-        cbShalatAshar = view.findViewById(R.id.cbShalatAshar);
-        cbShalatMaghrib = view.findViewById(R.id.cbShalatMaghrib);
-        cbShalatIsya = view.findViewById(R.id.cbShalatIsya);
-        cbTadarus = view.findViewById(R.id.cbTadarus);
-        cbShalatTarawih = view.findViewById(R.id.cbShalatTarawih);
+
+        // Inisialisasi semua CheckBox dan mapping ke nama field
+        checkboxMap = Map.of(
+                cbShalatSubuh = view.findViewById(R.id.cbShalatSubuh), "subuh",
+                cbShalatDzuhur = view.findViewById(R.id.cbShalatDzuhur), "dzuhur",
+                cbShalatAshar = view.findViewById(R.id.cbShalatAshar), "ashar",
+                cbShalatMaghrib = view.findViewById(R.id.cbShalatMaghrib), "maghrib",
+                cbShalatIsya = view.findViewById(R.id.cbShalatIsya), "isya",
+                cbTadarus = view.findViewById(R.id.cbTadarus), "tadarus",
+                cbShalatTarawih = view.findViewById(R.id.cbShalatTarawih), "tarawih"
+        );
+
+        // Atur listener untuk semua checkbox
+        for (CheckBox cb : checkboxMap.keySet()) {
+            cb.setOnCheckedChangeListener((buttonView, isChecked) -> {
+                if (!isLoadingChecklist) saveDailyChecklist();
+            });
+        }
+
+
         progressBar = view.findViewById(R.id.progressBar);
         tvJadwalSubuh = view.findViewById(R.id.tvJadwalSubuh);
         tvJadwalDzuhur = view.findViewById(R.id.tvJadwalDzuhur);
@@ -144,11 +163,6 @@ public class HomeFragment extends Fragment {
         String currentDate = sdfTanggal.format(new Date());
         tvTanggalHariIni.setText(currentDate); // Set ke TextView
 
-        // Aksi tombol "Jadwal Kegiatan" (nanti bisa diisi)
-        btnJadwalKegiatan.setOnClickListener(v -> {
-            // Tambahkan aksi jika sudah siap
-        });
-
         // Aksi tombol "Pengingat" (nanti bisa diisi)
         btnPengingat.setOnClickListener(v -> {
             PengingatFragment pengingatFragment = new PengingatFragment();
@@ -167,9 +181,105 @@ public class HomeFragment extends Fragment {
             transaction.commit();
         });
 
+        btnJadwalKegiatan.setOnClickListener(v -> {
+            HistoryFragment historyFragment = new HistoryFragment();
+            FragmentTransaction transaction = requireActivity().getSupportFragmentManager().beginTransaction();
+            transaction.replace(R.id.frame_layout, historyFragment);
+            transaction.addToBackStack(null);
+            transaction.commit();
+        });
+
+        loadDailyChecklist();            // <<--- Muat dulu checklist hari ini
+        checkAndResetDailyChecklist();  // <<--- Baru cek dan reset jika perlu
+
+        Button btnSimpanManual = view.findViewById(R.id.btnSimpanManual);
+        btnSimpanManual.setOnClickListener(v -> simpanHistoryManual());
+
 
         return view;
     }
+
+    private void saveDailyChecklist() {
+        SharedPreferences.Editor editor = requireContext().getSharedPreferences(PREFS_CHECKLIST, Context.MODE_PRIVATE).edit();
+        for (Map.Entry<CheckBox, String> entry : checkboxMap.entrySet()) {
+            editor.putBoolean(entry.getValue(), entry.getKey().isChecked());
+        }
+        editor.apply();
+    }
+
+
+    private void loadDailyChecklist() {
+        isLoadingChecklist = true;
+        SharedPreferences prefs = requireContext().getSharedPreferences(PREFS_CHECKLIST, Context.MODE_PRIVATE);
+        for (Map.Entry<CheckBox, String> entry : checkboxMap.entrySet()) {
+            boolean checked = prefs.getBoolean(entry.getValue(), false);
+            entry.getKey().setChecked(checked);
+            Log.d("ChecklistHariIni", entry.getValue() + " = " + checked);
+        }
+        isLoadingChecklist = false;
+    }
+
+    private void simpanHistoryManual() {
+        StringBuilder hasil = new StringBuilder();
+
+        if (cbShalatSubuh.isChecked()) hasil.append("Shalat Subuh, ");
+        if (cbShalatDzuhur.isChecked()) hasil.append("Shalat Dzuhur, ");
+        if (cbShalatAshar.isChecked()) hasil.append("Shalat Ashar, ");
+        if (cbShalatMaghrib.isChecked()) hasil.append("Shalat Maghrib, ");
+        if (cbShalatIsya.isChecked()) hasil.append("Shalat Isya, ");
+        if (cbTadarus.isChecked()) hasil.append("Tadarus, ");
+        if (cbShalatTarawih.isChecked()) hasil.append("Shalat Tarawih, ");
+
+        if (hasil.length() > 0) {
+            hasil.setLength(hasil.length() - 2); // Hapus koma terakhir
+        } else {
+            hasil.append("Tidak ada ibadah yang dilakukan");
+        }
+
+        String tanggalHariIni = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
+        SharedPreferences prefs = requireContext().getSharedPreferences("IbadahHistory", Context.MODE_PRIVATE);
+        prefs.edit().putString("history_" + tanggalHariIni, hasil.toString()).apply();
+
+        Toast.makeText(requireContext(), "History ibadah disimpan untuk hari ini!", Toast.LENGTH_SHORT).show();
+    }
+
+
+    private void checkAndResetDailyChecklist() {
+        SharedPreferences historyPrefs = requireContext().getSharedPreferences("IbadahHistory", Context.MODE_PRIVATE);
+        String lastDate = historyPrefs.getString("last_date", null);
+
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+        String todayDate = sdf.format(new Date());
+
+        if (!todayDate.equals(lastDate)) {
+            // Simpan checklist hari sebelumnya
+            SharedPreferences.Editor historyEditor = historyPrefs.edit();
+            String yesterdayKey = "history_" + (lastDate != null ? lastDate : "unknown");
+
+            StringBuilder log = new StringBuilder();
+            if (cbShalatSubuh.isChecked()) log.append("Shalat Subuh, ");
+            if (cbShalatDzuhur.isChecked()) log.append("Shalat Dzuhur, ");
+            if (cbShalatAshar.isChecked()) log.append("Shalat Ashar, ");
+            if (cbShalatMaghrib.isChecked()) log.append("Shalat Maghrib, ");
+            if (cbShalatIsya.isChecked()) log.append("Shalat Isya, ");
+            if (cbTadarus.isChecked()) log.append("Tadarus, ");
+            if (cbShalatTarawih.isChecked()) log.append("Tarawih, ");
+
+            if (log.length() == 0) {
+                log.append("Tidak ada ibadah yang dicentang.");
+            }
+
+            historyEditor.putString(yesterdayKey, log.toString());
+            historyEditor.putString("last_date", todayDate);
+            historyEditor.apply();
+
+            for (CheckBox cb : checkboxMap.keySet()) {
+                cb.setChecked(false);
+            }
+            requireContext().getSharedPreferences(PREFS_CHECKLIST, Context.MODE_PRIVATE).edit().clear().apply();
+        }
+    }
+
 
     private void saveLocationPermissionGranted(boolean isGranted) {
         SharedPreferences prefs = requireContext().getSharedPreferences("app_prefs", Context.MODE_PRIVATE);

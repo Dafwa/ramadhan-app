@@ -171,6 +171,16 @@
             android:layout_height="wrap_content"
             android:text="Shalat Tarawih"/>
 
+        <Button
+            android:id="@+id/btnSimpanManual"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Simpan History Manual"
+            android:layout_marginTop="12dp"
+            android:backgroundTint="@color/hijau_muda"
+            android:textColor="@android:color/white"/>
+
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
