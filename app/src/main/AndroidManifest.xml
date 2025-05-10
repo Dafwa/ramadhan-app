@@ -3,13 +3,15 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <!-- Izin yang diperlukan -->
-    <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
-    <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM"/>
-    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
-
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET" />
+
+    <!-- Izin untuk alarm dan notifikasi -->
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.SET_ALARM" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
 
     <application
         android:usesCleartextTraffic="true"
@@ -36,19 +38,25 @@
         <!-- Activity utama -->
         <activity
             android:name=".MainActivity"
-            android:exported="false">
+            android:exported="true">
         </activity>
 
-        <!-- Receiver untuk notifikasi pengingat sholat -->
+        <!-- Receiver untuk menangani pengingat sholat -->
         <receiver android:name=".PrayerReminderReceiver"
             android:exported="false">
+            <intent-filter>
+                <action android:name="com.daffafakhir.splashscreen.PRAYER_REMINDER"/>
+            </intent-filter>
+        </receiver>
+
+        <!-- Receiver untuk menangani reboot perangkat -->
+        <receiver android:name=".BootReceiver"
+            android:exported="false"
+            android:enabled="true">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED"/>
             </intent-filter>
         </receiver>
 
     </application>
-    <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM"/>
-
-
 </manifest>

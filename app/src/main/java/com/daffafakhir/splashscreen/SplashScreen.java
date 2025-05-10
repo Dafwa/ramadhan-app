@@ -1,12 +1,8 @@
 package com.daffafakhir.splashscreen;
 
 import android.content.Intent;
-import android.graphics.Color;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.view.Window;
-import android.view.WindowInsetsController;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -37,7 +33,7 @@ public class SplashScreen extends AppCompatActivity {
                 startActivity(new Intent(SplashScreen.this, MainActivity.class));
                 finish();
             }
-        },2000);
+        },1000);
 
     }
 }
