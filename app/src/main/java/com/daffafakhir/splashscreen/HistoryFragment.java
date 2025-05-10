@@ -7,10 +7,13 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -79,16 +82,64 @@ public class HistoryFragment extends Fragment {
             emptyText.setTextSize(16);
             layoutList.addView(emptyText);
         } else {
-            int padding = (int) (16 * getResources().getDisplayMetrics().density);
             for (Map.Entry<String, String> entry : sortedHistory.descendingMap().entrySet()) {
                 String tanggal = entry.getKey().replace("history_", "");
                 String ibadah = entry.getValue();
 
-                TextView item = new TextView(requireContext());
-                item.setText("Tanggal: " + tanggal + "\nIbadah: " + ibadah);
-                item.setTextSize(16);
-                item.setPadding(0, 0, 0, padding / 2);
-                layoutList.addView(item);
+                // Bungkus dengan CardView
+                androidx.cardview.widget.CardView cardView = new androidx.cardview.widget.CardView(requireContext());
+                cardView.setRadius(16);
+                cardView.setCardElevation(8);
+                LinearLayout.LayoutParams cardParams = new LinearLayout.LayoutParams(
+                        ViewGroup.LayoutParams.MATCH_PARENT,
+                        ViewGroup.LayoutParams.WRAP_CONTENT
+                );
+                cardParams.setMargins(0, 0, 0, 24);
+                cardView.setLayoutParams(cardParams);
+
+                // Isi CardView: LinearLayout Vertikal
+                LinearLayout innerLayout = new LinearLayout(requireContext());
+                innerLayout.setOrientation(LinearLayout.VERTICAL);
+                innerLayout.setPadding(24, 24, 24, 24);
+
+                // TextView isi history
+                TextView itemText = new TextView(requireContext());
+                itemText.setText("Tanggal: " + tanggal + "\nIbadah: " + ibadah);
+                itemText.setTextSize(16);
+
+                // Tombol hapus
+                ImageButton btnHapus = new ImageButton(requireContext());
+                btnHapus.setImageResource(R.drawable.baseline_delete_forever_24);
+                btnHapus.setBackgroundResource(R.drawable.bg_delete_button);
+                btnHapus.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
+                btnHapus.setPadding(16, 16, 16, 16);
+
+                LinearLayout.LayoutParams btnParams = new LinearLayout.LayoutParams(
+                        ViewGroup.LayoutParams.WRAP_CONTENT,
+                        ViewGroup.LayoutParams.WRAP_CONTENT
+                );
+                btnParams.topMargin = 16;
+                btnParams.gravity = Gravity.END;
+                btnHapus.setLayoutParams(btnParams);
+
+
+                btnHapus.setOnClickListener(v -> {
+                    new AlertDialog.Builder(requireContext())
+                            .setTitle("Konfirmasi")
+                            .setMessage("Hapus riwayat tanggal " + tanggal + "?")
+                            .setPositiveButton("Ya", (dialog, which) -> {
+                                prefs.edit().remove(entry.getKey()).apply();
+                                tampilkanHistory();
+                                Toast.makeText(requireContext(), "Riwayat " + tanggal + " dihapus", Toast.LENGTH_SHORT).show();
+                            })
+                            .setNegativeButton("Batal", null)
+                            .show();
+                });
+
+                innerLayout.addView(itemText);
+                innerLayout.addView(btnHapus);
+                cardView.addView(innerLayout);
+                layoutList.addView(cardView);
             }
         }
     }
