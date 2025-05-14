@@ -3,6 +3,7 @@ package com.daffafakhir.splashscreen;
 import android.Manifest;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
@@ -13,12 +14,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.cardview.widget.CardView;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
@@ -51,7 +54,7 @@ public class HomeFragment extends Fragment {
     private Handler handler = new Handler();
     private Runnable timeRunnable;
     private CheckBox cbShalatSubuh, cbShalatDzuhur, cbShalatAshar, cbShalatMaghrib, cbShalatIsya, cbTadarus, cbShalatTarawih;
-    private Button btnJadwalKegiatan, btnKhatamQuran, btnPengingat;
+    private CardView btnJadwalKegiatan, btnKhatamQuran, btnPengingat, btnKomunitas;
     private SharedPreferences sharedPreferences;
 
     public HomeFragment() {
@@ -113,7 +116,7 @@ public class HomeFragment extends Fragment {
         }
 
         // Inisialisasi tombol di onCreateView()
-        Button btnRefreshJadwal = view.findViewById(R.id.btnRefreshJadwal);
+        ImageButton btnRefreshJadwal = view.findViewById(R.id.btnRefreshJadwal);
 
         // Event klik tombol untuk memanggil API secara manual
         btnRefreshJadwal.setOnClickListener(v -> {
@@ -124,11 +127,11 @@ public class HomeFragment extends Fragment {
             editor.apply();
 
             // Kosongkan tampilan waktu sholat
-            tvJadwalSubuh.setText("");
-            tvJadwalDzuhur.setText("");
-            tvJadwalAshar.setText("");
-            tvJadwalMaghrib.setText("");
-            tvJadwalIsya.setText("");
+            tvJadwalSubuh.setText("Memuat...");
+            tvJadwalDzuhur.setText("Memuat...");
+            tvJadwalAshar.setText("Memuat...");
+            tvJadwalMaghrib.setText("Memuat...");
+            tvJadwalIsya.setText("Memuat...");
 
             // Tampilkan ProgressBar
             progressBar.setVisibility(View.VISIBLE);
@@ -140,6 +143,7 @@ public class HomeFragment extends Fragment {
         btnJadwalKegiatan = view.findViewById(R.id.btnJadwalKegiatan);
         btnKhatamQuran = view.findViewById(R.id.btnKhatamQuran);
         btnPengingat = view.findViewById(R.id.btnPengingat);
+        btnKomunitas = view.findViewById(R.id.btnKomunitas);
 
         // Membuat Runnable untuk mengupdate waktu setiap detik
         timeRunnable = new Runnable() {
@@ -187,6 +191,11 @@ public class HomeFragment extends Fragment {
             transaction.replace(R.id.frame_layout, historyFragment);
             transaction.addToBackStack(null);
             transaction.commit();
+        });
+
+        btnKomunitas.setOnClickListener(v -> {
+            Intent intent = new Intent(requireActivity(), DoaActivity.class);
+            startActivity(intent);
         });
 
         loadDailyChecklist();            // <<--- Muat dulu checklist hari ini

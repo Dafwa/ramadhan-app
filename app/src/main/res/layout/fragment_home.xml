@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true">
-    <LinearLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -13,163 +14,205 @@
         android:padding="16dp"
         android:background="@color/white">
 
-        <!-- Real Time -->
+        <!-- Tambahkan ProgressBar di sini -->
+        <ProgressBar
+            android:id="@+id/progressBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:visibility="gone" />
+
+        <!-- Real Time Card -->
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            app:cardCornerRadius="10dp"
-            app:cardElevation="5dp"
-            android:backgroundTint="@color/hijau_muda">
+            android:layout_marginVertical="8dp"
+            app:cardBackgroundColor="@color/hijau_muda"
+            app:cardCornerRadius="16dp"
+            app:cardElevation="4dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
                 android:gravity="center"
-                android:padding="10dp">
+                android:orientation="vertical"
+                android:padding="16dp">
 
                 <TextView
                     android:id="@+id/realTimeText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="00:00:00"
-                    android:textSize="24sp"
-                    android:textStyle="bold"
-                    android:textColor="@color/white"/>
+                    android:text="17:05:06"
+                    android:textColor="@android:color/white"
+                    android:textSize="36sp"
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/tvTanggalHariIni"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="hari, tanggal bulan tahun"
-                    android:textSize="14sp"
-                    android:textColor="@color/white"/>
+                    android:layout_marginBottom="8dp"
+                    android:text="Minggu, 23 Maret 2025"
+                    android:textColor="@android:color/white"
+                    android:textSize="16sp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/tvJadwalSubuh"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Subuh   : 04:49"
+                        android:textColor="@android:color/white"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:id="@+id/tvJadwalDzuhur"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Dzuhur  : 12:08"
+                        android:textColor="@android:color/white"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:id="@+id/tvJadwalAshar"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Ashar   : 15:20"
+                        android:textColor="@android:color/white"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:id="@+id/tvJadwalMaghrib"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Maghrib : 18:11"
+                        android:textColor="@android:color/white"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:id="@+id/tvJadwalIsya"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Isya    : 19:20"
+                        android:textColor="@android:color/white"
+                        android:textSize="16sp" />
+                </LinearLayout>
+
+                <ImageButton
+                    android:id="@+id/btnRefreshJadwal"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_gravity="end"
+                    android:background="@android:color/transparent"
+                    android:contentDescription="Perbarui Jadwal"
+                    android:src="@drawable/reload"
+                    app:tint="@android:color/white" />
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginTop="10dp">
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/tvJadwalSubuh"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Subuh: "
-                    android:textSize="16sp"
-                    android:layout_marginTop="9dp"/>
-                <TextView
-                    android:id="@+id/tvJadwalDzuhur"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Dzuhur: "
-                    android:textSize="16sp" />
-                <TextView
-                    android:id="@+id/tvJadwalAshar"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Ashar: "
-                    android:textSize="16sp" />
-                <TextView
-                    android:id="@+id/tvJadwalMaghrib"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Maghrib: "
-                    android:textSize="16sp" />
-                <TextView
-                    android:id="@+id/tvJadwalIsya"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Isya: "
-                    android:textSize="16sp"
-                    android:layout_marginBottom="8dp"/>
-
-                <Button
-                    android:id="@+id/btnRefreshJadwal"
-                    android:backgroundTint="@color/hijau_muda"
-                    android:textColor="@color/white"
-                    android:textStyle="bold"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Perbarui Jadwal"
-                    android:layout_gravity="center_horizontal"/>
-
-            </LinearLayout>
-
-            <ProgressBar
-                android:id="@+id/progressBar"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:visibility="gone"
-                android:layout_gravity="center"
-                android:layout_marginBottom="30dp"/>
-
-        </LinearLayout>
-
-        <!-- Checklist Ibadah -->
+        <!-- Header Checklist -->
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
-            android:layout_height="33dp"
-            android:layout_margin="8dp"
-            app:cardCornerRadius="14dp"
-            app:cardElevation="4dp"
-            android:backgroundTint="@color/hijau_muda">
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="8dp"
+            app:cardBackgroundColor="@color/hijau_muda"
+            app:cardCornerRadius="16dp"
+            app:cardElevation="4dp">
+
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Checklist Ibadah Hari Ini"
-                android:textSize="18sp"
-                android:textStyle="bold"
-                android:textColor="@color/white"
-                android:layout_gravity="center"/>
+                android:gravity="center"
+                android:padding="12dp"
+                android:text="Ibadah Harian"
+                android:textColor="@android:color/white"
+                android:textSize="20sp"
+                android:textStyle="bold" />
         </androidx.cardview.widget.CardView>
 
-        <CheckBox
-            android:id="@+id/cbShalatSubuh"
-            android:layout_width="wrap_content"
+        <!-- Checklist Ibadah -->
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Shalat Subuh"/>
+            android:layout_marginTop="8dp"
+            android:orientation="vertical"
+            android:paddingHorizontal="8dp">
 
-        <CheckBox
-            android:id="@+id/cbShalatDzuhur"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Shalat Dzuhur"/>
-        <CheckBox
-            android:id="@+id/cbShalatAshar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Shalat Ashar"/>
-        <CheckBox
-            android:id="@+id/cbShalatMaghrib"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Shalat Maghrib"/>
-        <CheckBox
-            android:id="@+id/cbShalatIsya"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Shalat Isya"/>
+            <CheckBox
+                android:id="@+id/cbShalatSubuh"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="2dp"
+                android:buttonTint="@color/hijau_muda"
+                android:padding="4dp"
+                android:text="Shalat Subuh"
+                android:textColor="@color/hijau_muda" />
 
-        <CheckBox
-            android:id="@+id/cbTadarus"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Tadarus Al-Qur'an"/>
+            <CheckBox
+                android:id="@+id/cbShalatDzuhur"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="2dp"
+                android:buttonTint="@color/hijau_muda"
+                android:padding="4dp"
+                android:text="Shalat Dzuhur"
+                android:textColor="@color/hijau_muda" />
 
-        <CheckBox
-            android:id="@+id/cbShalatTarawih"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Shalat Tarawih"/>
+            <CheckBox
+                android:id="@+id/cbShalatAshar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="2dp"
+                android:buttonTint="@color/hijau_muda"
+                android:padding="4dp"
+                android:text="Shalat Ashar"
+                android:textColor="@color/hijau_muda" />
+
+            <CheckBox
+                android:id="@+id/cbShalatMaghrib"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="2dp"
+                android:buttonTint="@color/hijau_muda"
+                android:padding="4dp"
+                android:text="Shalat Maghrib"
+                android:textColor="@color/hijau_muda" />
+
+            <CheckBox
+                android:id="@+id/cbShalatIsya"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="2dp"
+                android:buttonTint="@color/hijau_muda"
+                android:padding="4dp"
+                android:text="Shalat Isya"
+                android:textColor="@color/hijau_muda" />
+
+            <CheckBox
+                android:id="@+id/cbShalatTarawih"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="2dp"
+                android:buttonTint="@color/hijau_muda"
+                android:padding="4dp"
+                android:text="Shalat Tarawih"
+                android:textColor="@color/hijau_muda" />
+
+            <CheckBox
+                android:id="@+id/cbTadarus"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="2dp"
+                android:buttonTint="@color/hijau_muda"
+                android:padding="4dp"
+                android:text="Tadarus Al-Qur'an"
+                android:textColor="@color/hijau_muda" />
+        </LinearLayout>
 
         <Button
             android:id="@+id/btnSimpanManual"
@@ -180,62 +223,93 @@
             android:backgroundTint="@color/hijau_muda"
             android:textColor="@android:color/white"/>
 
-
+        <!-- Tombol Baris 1 -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center"
-            android:layout_marginTop="10dp">
+            android:layout_marginTop="16dp"
+            android:orientation="horizontal">
 
-            <Button
-                android:id="@+id/btnPengingat"
+            <androidx.cardview.widget.CardView
+                android:id="@+id/btnKhatamQuran"
                 android:layout_width="0dp"
-                android:layout_height="match_parent"
+                android:layout_height="70dp"
+                android:layout_marginEnd="8dp"
                 android:layout_weight="1"
-                android:backgroundTint="@color/hijau_muda"
-                android:drawableTop="@drawable/ic_reminder"
-                android:drawableTint="@color/white"
-                android:gravity="center"
-                android:padding="10dp"
-                android:textColor="@android:color/white"
-                android:layout_marginRight="5dp"/>
+                app:cardBackgroundColor="@color/hijau_muda"
+                app:cardCornerRadius="24dp"
+                app:cardElevation="4dp">
 
-            <Button
-                android:id="@+id/btnJadwalKegiatan"
+                <ImageView
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/ic_quran"
+                    app:tint="@android:color/white" />
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/btnKomunitas"
                 android:layout_width="0dp"
-                android:layout_height="64dp"
+                android:layout_height="70dp"
+                android:layout_marginStart="8dp"
                 android:layout_weight="1"
-                android:backgroundTint="@color/hijau_muda"
-                android:drawableTop="@drawable/ic_time"
-                android:drawableTint="@color/white"
-                android:gravity="center"
-                android:padding="10dp"
-                android:textColor="@android:color/white"
-                android:layout_marginLeft="5dp"/>
+                app:cardBackgroundColor="@color/hijau_muda"
+                app:cardCornerRadius="24dp"
+                app:cardElevation="4dp">
 
+                <ImageView
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/pray"
+                    app:tint="@android:color/white" />
+            </androidx.cardview.widget.CardView>
         </LinearLayout>
 
-
-        <!-- Baris 2 -->
+        <!-- Tombol Baris 2 -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center"
-            android:layout_marginTop="10dp">
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="16dp"
+            android:orientation="horizontal">
 
-            <Button
-                android:id="@+id/btnKhatamQuran"
-                android:layout_width="70dp"
+            <androidx.cardview.widget.CardView
+                android:id="@+id/btnPengingat"
+                android:layout_width="0dp"
                 android:layout_height="70dp"
+                android:layout_marginEnd="8dp"
                 android:layout_weight="1"
-                android:backgroundTint="@color/hijau_muda"
-                android:drawableTop="@drawable/ic_quran"
-                android:drawableTint="@color/white"
-                android:gravity="center"
-                android:padding="10dp"
-                android:textColor="@android:color/white" />
+                app:cardBackgroundColor="@color/hijau_muda"
+                app:cardCornerRadius="24dp"
+                app:cardElevation="4dp">
+
+                <ImageView
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/ic_reminder"
+                    app:tint="@android:color/white" />
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/btnJadwalKegiatan"
+                android:layout_width="0dp"
+                android:layout_height="70dp"
+                android:layout_marginStart="8dp"
+                android:layout_weight="1"
+                app:cardBackgroundColor="@color/hijau_muda"
+                app:cardCornerRadius="24dp"
+                app:cardElevation="4dp">
+
+                <ImageView
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/ic_time"
+                    app:tint="@android:color/white" />
+            </androidx.cardview.widget.CardView>
         </LinearLayout>
     </LinearLayout>
 </ScrollView>
