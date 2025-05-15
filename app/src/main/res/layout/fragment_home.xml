@@ -27,7 +27,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginVertical="8dp"
-            app:cardBackgroundColor="@color/hijau_muda"
+            app:cardBackgroundColor="@color/maincolor"
             app:cardCornerRadius="16dp"
             app:cardElevation="4dp">
 
@@ -120,7 +120,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginVertical="8dp"
-            app:cardBackgroundColor="@color/hijau_muda"
+            app:cardBackgroundColor="@color/maincolor"
             app:cardCornerRadius="16dp"
             app:cardElevation="4dp">
 
@@ -218,9 +218,9 @@
             android:id="@+id/btnSimpanManual"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Simpan History Manual"
+            android:text="Simpan"
             android:layout_marginTop="12dp"
-            android:backgroundTint="@color/hijau_muda"
+            android:backgroundTint="@color/maincolor"
             android:textColor="@android:color/white"/>
 
         <!-- Tombol Baris 1 -->
@@ -236,7 +236,7 @@
                 android:layout_height="70dp"
                 android:layout_marginEnd="8dp"
                 android:layout_weight="1"
-                app:cardBackgroundColor="@color/hijau_muda"
+                app:cardBackgroundColor="@color/maincolor"
                 app:cardCornerRadius="24dp"
                 app:cardElevation="4dp">
 
@@ -254,7 +254,7 @@
                 android:layout_height="70dp"
                 android:layout_marginStart="8dp"
                 android:layout_weight="1"
-                app:cardBackgroundColor="@color/hijau_muda"
+                app:cardBackgroundColor="@color/maincolor"
                 app:cardCornerRadius="24dp"
                 app:cardElevation="4dp">
 
@@ -281,7 +281,7 @@
                 android:layout_height="70dp"
                 android:layout_marginEnd="8dp"
                 android:layout_weight="1"
-                app:cardBackgroundColor="@color/hijau_muda"
+                app:cardBackgroundColor="@color/maincolor"
                 app:cardCornerRadius="24dp"
                 app:cardElevation="4dp">
 
@@ -299,7 +299,7 @@
                 android:layout_height="70dp"
                 android:layout_marginStart="8dp"
                 android:layout_weight="1"
-                app:cardBackgroundColor="@color/hijau_muda"
+                app:cardBackgroundColor="@color/maincolor"
                 app:cardCornerRadius="24dp"
                 app:cardElevation="4dp">
 

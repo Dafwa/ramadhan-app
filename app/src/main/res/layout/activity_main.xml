@@ -19,7 +19,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0"
-        app:cardBackgroundColor="@color/hijau_muda">
+        app:cardBackgroundColor="@color/maincolor">
 
         <TextView
             android:id="@+id/textView"
@@ -51,7 +51,7 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:menu="@menu/button_nav_menu"
-        app:backgroundTint="@color/hijau_muda"
+        app:backgroundTint="@color/maincolor"
         app:itemIconTint="@color/white"
         app:itemTextColor="@color/white"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

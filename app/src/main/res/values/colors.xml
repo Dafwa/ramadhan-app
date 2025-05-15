@@ -2,11 +2,15 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
-    <color name="maincolor">#056839</color>
+    <color name="maincolor">#50A060</color>
     <color name="hijau_muda">#2ECC71</color>
     <color name="Cream">#FFFFCC</color>
     <color name="light_gray">#D3D3D3</color>
     <color name="blue">#3F51B5</color>
+
+    <color name="gray_text">#757575</color>
+    <color name="red_delete">#E74C3C</color>
+    <color name="gray_light">#F5F5F5</color>
 
 
 </resources>

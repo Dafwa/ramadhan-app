@@ -4,26 +4,31 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.ImageButton;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.material.button.MaterialButton;
+
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
 public class HistoryFragment extends Fragment {
 
-    private LinearLayout layoutList;
+    private RecyclerView recyclerViewHistory;
+    private TextView tvEmptyHistory;
+    private SwipeRefreshLayout swipeRefreshHistory;
+    private HistoryAdapter historyAdapter;
+    private List<HistoryItem> historyItems;
 
     public HistoryFragment() {}
 
@@ -32,12 +37,34 @@ public class HistoryFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_history, container, false);
 
-        layoutList = view.findViewById(R.id.layoutListHistory);
-        Button btnClear = view.findViewById(R.id.btnClearHistory);
+        // Inisialisasi komponen UI
+        recyclerViewHistory = view.findViewById(R.id.recyclerViewHistory);
+        tvEmptyHistory = view.findViewById(R.id.tvEmptyHistory);
+        swipeRefreshHistory = view.findViewById(R.id.swipeRefreshHistory);
+        MaterialButton btnClearHistory = view.findViewById(R.id.btnClearHistory);
 
-        tampilkanHistory();
+        // Setup RecyclerView
+        historyItems = new ArrayList<>();
+        historyAdapter = new HistoryAdapter(requireContext(), historyItems, this::hapusRiwayat);
+        recyclerViewHistory.setLayoutManager(new LinearLayoutManager(requireContext()));
+        recyclerViewHistory.setAdapter(historyAdapter);
 
-        btnClear.setOnClickListener(v -> {
+        // Setup Swipe Refresh
+        if (swipeRefreshHistory != null) {
+            swipeRefreshHistory.setColorSchemeResources(R.color.maincolor, R.color.hijau_muda);
+            swipeRefreshHistory.setOnRefreshListener(this::loadHistoryData);
+        }
+
+        // Ambil data riwayat
+        loadHistoryData();
+
+        // Setup Clear Button
+        btnClearHistory.setOnClickListener(v -> {
+            if (historyItems.isEmpty()) {
+                Toast.makeText(requireContext(), "Tidak ada riwayat untuk dihapus", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
             new AlertDialog.Builder(requireContext())
                     .setTitle("Konfirmasi")
                     .setMessage("Apakah kamu yakin ingin menghapus semua riwayat ibadah?")
@@ -52,8 +79,7 @@ public class HistoryFragment extends Fragment {
                         }
 
                         editor.apply();
-                        layoutList.removeAllViews();
-                        tampilkanHistory();
+                        loadHistoryData();
                         Toast.makeText(getContext(), "Riwayat ibadah berhasil dihapus", Toast.LENGTH_SHORT).show();
                     })
                     .setNegativeButton("Batal", null)
@@ -63,8 +89,8 @@ public class HistoryFragment extends Fragment {
         return view;
     }
 
-    private void tampilkanHistory() {
-        layoutList.removeAllViews();
+    private void loadHistoryData() {
+        historyItems.clear();
 
         SharedPreferences prefs = requireContext().getSharedPreferences("IbadahHistory", Context.MODE_PRIVATE);
         Map<String, ?> allEntries = prefs.getAll();
@@ -77,70 +103,51 @@ public class HistoryFragment extends Fragment {
         }
 
         if (sortedHistory.isEmpty()) {
-            TextView emptyText = new TextView(requireContext());
-            emptyText.setText("Belum ada history ibadah yang tersimpan.");
-            emptyText.setTextSize(16);
-            layoutList.addView(emptyText);
+            tvEmptyHistory.setVisibility(View.VISIBLE);
+            recyclerViewHistory.setVisibility(View.GONE);
         } else {
+            tvEmptyHistory.setVisibility(View.GONE);
+            recyclerViewHistory.setVisibility(View.VISIBLE);
+
             for (Map.Entry<String, String> entry : sortedHistory.descendingMap().entrySet()) {
                 String tanggal = entry.getKey().replace("history_", "");
                 String ibadah = entry.getValue();
-
-                // Bungkus dengan CardView
-                androidx.cardview.widget.CardView cardView = new androidx.cardview.widget.CardView(requireContext());
-                cardView.setRadius(16);
-                cardView.setCardElevation(8);
-                LinearLayout.LayoutParams cardParams = new LinearLayout.LayoutParams(
-                        ViewGroup.LayoutParams.MATCH_PARENT,
-                        ViewGroup.LayoutParams.WRAP_CONTENT
-                );
-                cardParams.setMargins(0, 0, 0, 24);
-                cardView.setLayoutParams(cardParams);
-
-                // Isi CardView: LinearLayout Vertikal
-                LinearLayout innerLayout = new LinearLayout(requireContext());
-                innerLayout.setOrientation(LinearLayout.VERTICAL);
-                innerLayout.setPadding(24, 24, 24, 24);
-
-                // TextView isi history
-                TextView itemText = new TextView(requireContext());
-                itemText.setText("Tanggal: " + tanggal + "\nIbadah: " + ibadah);
-                itemText.setTextSize(16);
-
-                // Tombol hapus
-                ImageButton btnHapus = new ImageButton(requireContext());
-                btnHapus.setImageResource(R.drawable.baseline_delete_forever_24);
-                btnHapus.setBackgroundResource(R.drawable.bg_delete_button);
-                btnHapus.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
-                btnHapus.setPadding(16, 16, 16, 16);
-
-                LinearLayout.LayoutParams btnParams = new LinearLayout.LayoutParams(
-                        ViewGroup.LayoutParams.WRAP_CONTENT,
-                        ViewGroup.LayoutParams.WRAP_CONTENT
-                );
-                btnParams.topMargin = 16;
-                btnParams.gravity = Gravity.END;
-                btnHapus.setLayoutParams(btnParams);
-
-
-                btnHapus.setOnClickListener(v -> {
-                    new AlertDialog.Builder(requireContext())
-                            .setTitle("Konfirmasi")
-                            .setMessage("Hapus riwayat tanggal " + tanggal + "?")
-                            .setPositiveButton("Ya", (dialog, which) -> {
-                                prefs.edit().remove(entry.getKey()).apply();
-                                tampilkanHistory();
-                                Toast.makeText(requireContext(), "Riwayat " + tanggal + " dihapus", Toast.LENGTH_SHORT).show();
-                            })
-                            .setNegativeButton("Batal", null)
-                            .show();
-                });
-
-                innerLayout.addView(itemText);
-                innerLayout.addView(btnHapus);
-                cardView.addView(innerLayout);
-                layoutList.addView(cardView);
+                historyItems.add(new HistoryItem(entry.getKey(), tanggal, ibadah));
             }
+        }
+
+        historyAdapter.notifyDataSetChanged();
+
+        // Penting: Null check untuk menghindari NullPointerException
+        if (swipeRefreshHistory != null && swipeRefreshHistory.isRefreshing()) {
+            swipeRefreshHistory.setRefreshing(false);
+        }
+    }
+
+    private void hapusRiwayat(String key, String tanggal) {
+        new AlertDialog.Builder(requireContext())
+                .setTitle("Konfirmasi")
+                .setMessage("Hapus riwayat tanggal " + tanggal + "?")
+                .setPositiveButton("Ya", (dialog, which) -> {
+                    SharedPreferences prefs = requireContext().getSharedPreferences("IbadahHistory", Context.MODE_PRIVATE);
+                    prefs.edit().remove(key).apply();
+                    loadHistoryData();
+                    Toast.makeText(requireContext(), "Riwayat " + tanggal + " dihapus", Toast.LENGTH_SHORT).show();
+                })
+                .setNegativeButton("Batal", null)
+                .show();
+    }
+
+    // Model class untuk data riwayat
+    static class HistoryItem {
+        String key;
+        String tanggal;
+        String ibadah;
+
+        HistoryItem(String key, String tanggal, String ibadah) {
+            this.key = key;
+            this.tanggal = tanggal;
+            this.ibadah = ibadah;
         }
     }
 }
