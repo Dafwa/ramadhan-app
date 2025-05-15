@@ -57,9 +57,6 @@ public class PengingatFragment extends Fragment {
         switchMaghrib.setOnCheckedChangeListener(this::saveSwitchState);
         switchIsya.setOnCheckedChangeListener(this::saveSwitchState);
 
-        Button btnTestReminder = view.findViewById(R.id.btn_test_reminder);
-        btnTestReminder.setOnClickListener(v -> setDummyReminder());
-
 
         return view;
     }
